@@ -325,6 +325,102 @@ const RANKERS = [
         }
 
     ]
-}
+    },
+    {
+        id: "mario-kart-tracks",
+
+        title: "Mario Kart Tracks",
+
+        subtitle: "Rank your favorite Mario Kart tracks",
+
+        icon: "🏎️",
+
+        image: "images/mario_kart.jpg",
+
+        items: [
+
+            {
+                name: "Mario Kart Stadium",
+                image: "images/mario_kart_stadium.jpg"
+            },
+
+            {
+                name: "Water Park",
+                image: "images/water_park.jpg"
+            },
+
+            {
+                name: "Sweet Sweet Canyon",
+                image: "images/sweet_sweet_canyon.jpg"
+            },
+
+            {
+                name: "Thwomp Ruins",
+                image: "images/thwomp_ruins.jpg"
+            },
+
+            {
+                name: "Mario Circuit",
+                image: "images/mario_circuit.jpg"
+            },
+
+            {
+                name: "Toad Harbor",
+                image: "images/toad_harbor.jpg"
+            },
+
+            {
+                name: "Twisted Mansion",
+                image: "images/twisted_mansion.jpg"
+            },
+
+            {
+                name: "Shy Guy Falls",
+                image: "images/shy_guy_falls.jpg"
+            },
+
+            {
+                name: "Sunshine Airport",
+                image: "images/sunshine_airport.jpg"
+            },
+
+            {
+                name: "Dolphin Shoals",
+                image: "images/dolphin_shoals.jpg"
+            },
+
+            {
+                name: "Electrodrome",
+                image: "images/electrodrome.jpg"
+            },
+
+            {
+                name: "Mount Wario",
+                image: "images/mount_wario.jpg"
+            },
+
+            {
+                name: "Cloudtop Cruise",
+                image: "images/cloudtop_cruise.jpg"
+            },
+
+            {
+                name: "Bone-Dry Dunes",
+                image: "images/bone_dry_dunes.jpg"
+            },
+
+            {
+                name: "Bowser's Castle",
+                image: "images/bowsers_castle.jpg"
+            },
+
+            {
+                name: "Rainbow Road",
+                image: "images/rainbow_road.jpg"
+            }
+
+        ]
+
+    }
 
 ];
