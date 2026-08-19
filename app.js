@@ -161,6 +161,29 @@ let comparisons = {};
 
 let gameFinished = false;
 
+/* =========================================================
+   GITHUB PAGES ROUTING
+========================================================= */
+
+function getBasePath() {
+    return "/Fandom-Ranker";
+}
+
+
+function goToRoute(route) {
+
+    const basePath = getBasePath();
+
+    route = String(route || "")
+        .replace(/^\/+/, "");
+
+    window.history.pushState(
+        {},
+        "",
+        basePath + "/" + route
+    );
+
+}
 
 /* =========================================================
    CONSTANTS
