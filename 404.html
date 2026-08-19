@@ -7,17 +7,7 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    >
-
-    <meta
-        name="description"
-        content="Fandom Ranker - Rank your favorite songs, characters, movies, games, and more through fun head-to-head comparisons."
-    >
-
-    <meta
-        name="theme-color"
-        content="#111827"
+        content="width=device-width, initial-scale=1.0"
     >
 
     <meta
@@ -27,782 +17,281 @@
 
     <title>Fandom Ranker</title>
 
+    <!--
+    ============================================================
+    FANDOM RANKER
+    GITHUB PAGES SPA 404 ROUTER
+    ============================================================
 
-    <!-- =====================================================
-         GITHUB PAGES SPA ROUTING
-    ====================================================== -->
+    GitHub Pages project:
 
-    <script>
-<<<<<<< HEAD
-=======
+    https://cr4zym3.github.io/Fandom-Ranker/
 
-        /*
-        ============================================================
-        FANDOM RANKER
-        GITHUB PAGES 404 ROUTER
-        ============================================================
-
-        GitHub Pages project:
-
-        https://cr4zym3.github.io/Fandom-Ranker/
-
-        GitHub Pages does not know about client-side routes such as:
+    GitHub Pages does not natively understand client-side
+    routes such as:
 
         /Fandom-Ranker/home
-        /Fandom-Ranker/star-wars-movies
         /Fandom-Ranker/twice
+        /Fandom-Ranker/star-wars-movies
+        /Fandom-Ranker/star-wars-movies/results
 
-        When one of those URLs is refreshed, GitHub Pages loads
-        this 404.html file.
+    When one of those URLs is refreshed, GitHub Pages sends
+    the request to this 404.html file.
 
-        This file temporarily converts the route into a query
-        string so GitHub Pages serves index.html.
+    This script converts the requested route into a temporary
+    query-string URL:
 
-        index.html then restores the clean URL.
-        ============================================================
-        */
->>>>>>> 020d58d9ca8e757eeff3859fc920fa4adce9b8a7
+        /Fandom-Ranker/?/star-wars-movies
 
+    The normal index.html then restores the clean URL before
+    app.js starts.
+
+    ============================================================
+    -->
+
+    <script>
 
         (function () {
 
-<<<<<<< HEAD
             /*
-            --------------------------------------------------------
-            GITHUB PAGES PROJECT BASE
-            --------------------------------------------------------
+            ----------------------------------------------------
+            IMPORTANT
+            ----------------------------------------------------
+
+            This MUST match the GitHub Pages repository name.
+
+                https://cr4zym3.github.io/Fandom-Ranker/
+
+            Therefore:
+
+                /Fandom-Ranker/
             */
 
             var BASE_PATH =
                 "/Fandom-Ranker/";
-=======
-            var location = window.location;
-
-            var basePath = "/Fandom-Ranker/";
->>>>>>> 020d58d9ca8e757eeff3859fc920fa4adce9b8a7
 
 
             /*
-            --------------------------------------------------------
-<<<<<<< HEAD
-            CHECK FOR A REDIRECT FROM 404.HTML
-            --------------------------------------------------------
-
-            404.html converts:
-
-                /Fandom-Ranker/star-wars-movies
-
-            into:
-
-                /Fandom-Ranker/?/star-wars-movies
-
-            This code restores:
-
-                /Fandom-Ranker/star-wars-movies
-
-            before app.js runs.
-=======
-            GET THE PATH AFTER /Fandom-Ranker/
-            --------------------------------------------------------
+            ----------------------------------------------------
+            CURRENT REQUEST
+            ----------------------------------------------------
             */
 
-            var path =
-                location.pathname.substring(
-                    basePath.length
-                );
+            var currentPath =
+                window.location.pathname;
 
 
-            /*
-            --------------------------------------------------------
-            GET SEARCH PARAMETERS
-            --------------------------------------------------------
-            */
-
-            var search =
-                location.search;
-
-
-            /*
-            --------------------------------------------------------
-            GET HASH
-            --------------------------------------------------------
-            */
-
-            var hash =
-                location.hash;
-
-
-            /*
-            --------------------------------------------------------
-            BUILD TEMPORARY URL
-            --------------------------------------------------------
-
-            Example:
-
-            /Fandom-Ranker/star-wars-movies
-
-            becomes:
-
-            /Fandom-Ranker/?/star-wars-movies
-            --------------------------------------------------------
-            */
-
-
-            var redirectUrl =
-                basePath +
-                "?/" +
-                path;
-
-
-            /*
-            --------------------------------------------------------
-            PRESERVE QUERY PARAMETERS
->>>>>>> 020d58d9ca8e757eeff3859fc920fa4adce9b8a7
-            --------------------------------------------------------
-            */
-
-            var search =
+            var currentSearch =
                 window.location.search;
 
 
+            var currentHash =
+                window.location.hash;
+
+
+            /*
+            ----------------------------------------------------
+            FIND THE ROUTE
+            ----------------------------------------------------
+
+            Example:
+
+                /Fandom-Ranker/star-wars-movies
+
+            becomes:
+
+                star-wars-movies
+            */
+
+            var route =
+                currentPath;
+
+
             if (
-                search &&
-<<<<<<< HEAD
-                search.indexOf("?/") === 0
+                route.indexOf(BASE_PATH) === 0
             ) {
-
-                /*
-                ----------------------------------------------------
-                REMOVE THE ?/ PREFIX
-                ----------------------------------------------------
-                */
-
-                var route =
-                    search.substring(2);
-
-
-                /*
-                ----------------------------------------------------
-                SEPARATE HASH
-                ----------------------------------------------------
-                */
-
-                var hash = "";
-
-                var hashIndex =
-                    route.indexOf("#");
-
-
-                if (
-                    hashIndex !== -1
-                ) {
-
-                    hash =
-                        route.substring(
-                            hashIndex
-                        );
-
-                    route =
-                        route.substring(
-                            0,
-                            hashIndex
-                        );
-
-                }
-
-
-                /*
-                ----------------------------------------------------
-                SEPARATE ADDITIONAL QUERY PARAMETERS
-                ----------------------------------------------------
-                */
-
-                var query = "";
-
-                var queryIndex =
-                    route.indexOf("&");
-
-
-                if (
-                    queryIndex !== -1
-                ) {
-
-                    var extraQuery =
-                        route.substring(
-                            queryIndex + 1
-                        );
-
-                    route =
-                        route.substring(
-                            0,
-                            queryIndex
-                        );
-
-                    if (
-                        extraQuery
-                    ) {
-
-                        query =
-                            "?" +
-                            extraQuery;
-
-                    }
-
-                }
-
-
-                /*
-                ----------------------------------------------------
-                CLEAN UP ROUTE
-                ----------------------------------------------------
-                */
 
                 route =
-                    route.replace(
-                        /^\/+/,
-                        ""
+                    route.substring(
+                        BASE_PATH.length
                     );
-
-
-                /*
-                ----------------------------------------------------
-                RESTORE ORIGINAL URL
-                ----------------------------------------------------
-                */
-
-                var restoredUrl =
-                    BASE_PATH +
-                    route +
-                    query +
-                    hash;
-
-
-                /*
-                ----------------------------------------------------
-                UPDATE URL WITHOUT RELOADING
-                ----------------------------------------------------
-                */
-
-                window.history.replaceState(
-                    {},
-                    "",
-                    restoredUrl
-                );
-
-            }
-
-=======
-                search.length > 0
-            ) {
-
-                redirectUrl +=
-                    "&" +
-                    search.substring(1);
 
             }
 
 
             /*
-            --------------------------------------------------------
-            PRESERVE HASH
-            --------------------------------------------------------
+            ----------------------------------------------------
+            CLEAN ROUTE
+            ----------------------------------------------------
+            */
+
+            route =
+                route.replace(
+                    /^\/+/,
+                    ""
+                );
+
+
+            route =
+                route.replace(
+                    /\/+$/,
+                    ""
+                );
+
+
+            /*
+            ----------------------------------------------------
+            IF THERE IS NO ROUTE
+            ----------------------------------------------------
+
+            This normally should not happen for a 404 page,
+            but safely send it to home.
+            */
+
+            if (!route) {
+
+                route =
+                    "home";
+
+            }
+
+
+            /*
+            ----------------------------------------------------
+            PRESERVE QUERY PARAMETERS
+            ----------------------------------------------------
+
+            If the original URL was something like:
+
+                /Fandom-Ranker/twice?foo=bar
+
+            we preserve the query string.
+
+            The special ?/route format lets index.html
+            distinguish the routing information from normal
+            query parameters.
+            */
+
+            var redirectUrl =
+                BASE_PATH +
+                "?/" +
+                route;
+
+
+            /*
+            ----------------------------------------------------
+            PRESERVE ORIGINAL QUERY PARAMETERS
+            ----------------------------------------------------
             */
 
             if (
-                hash &&
-                hash.length > 0
+                currentSearch &&
+                currentSearch !== "?"
             ) {
 
-                redirectUrl +=
-                    hash;
+                /*
+                Remove the leading ? because the special route
+                query already begins with ?/
+                */
+
+                var extraQuery =
+                    currentSearch.substring(1);
+
+
+                if (extraQuery) {
+
+                    redirectUrl +=
+                        "&" +
+                        extraQuery;
+
+                }
 
             }
 
 
             /*
-            --------------------------------------------------------
-            REDIRECT TO INDEX.HTML
-            --------------------------------------------------------
+            ----------------------------------------------------
+            PRESERVE HASH
+            ----------------------------------------------------
+            */
+
+            if (
+                currentHash
+            ) {
+
+                redirectUrl +=
+                    currentHash;
+
+            }
+
+
+            /*
+            ----------------------------------------------------
+            REDIRECT
+            ----------------------------------------------------
+
+            Example:
+
+                Original:
+
+                /Fandom-Ranker/star-wars-movies
+
+                Temporary:
+
+                /Fandom-Ranker/?/star-wars-movies
+
+            index.html will then restore:
+
+                /Fandom-Ranker/star-wars-movies
             */
 
             window.location.replace(
                 redirectUrl
             );
 
->>>>>>> 020d58d9ca8e757eeff3859fc920fa4adce9b8a7
         })();
 
     </script>
-
-
-    <!-- =====================================================
-         STYLES
-    ====================================================== -->
-
-    <link
-        rel="stylesheet"
-        href="/Fandom-Ranker/style.css?v=5"
-    >
-
-
-    <!-- =====================================================
-         PWA
-    ====================================================== -->
-
-    <link
-        rel="manifest"
-        href="/Fandom-Ranker/manifest.json"
-    >
-
-
-    <link
-        rel="icon"
-        href="/Fandom-Ranker/icons/icon-192.png"
-    >
 
 </head>
 
 
 <body>
 
+    <!--
+        This page normally redirects immediately.
 
-<<<<<<< HEAD
-    <!-- =====================================================
-         HOME SCREEN
-    ====================================================== -->
+        The message is only visible for the very brief moment
+        before the browser processes the redirect.
+    -->
 
     <main
-        id="home-screen"
-        class="screen"
+        style="
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#111827;
+            color:white;
+            font-family:Arial,sans-serif;
+            text-align:center;
+        "
     >
 
-        <section class="home-header">
-
-            <div class="home-icon">
-                ⭐
-            </div>
-
+        <div>
 
             <h1>
                 Fandom Ranker
             </h1>
 
-
             <p>
-                Build your personal ranking by choosing
-                between two favorites at a time.
+                Loading...
             </p>
 
-        </section>
-
-
-        <section class="ranker-section">
-
-            <h2>
-                Choose a Fandom
-            </h2>
-
-
-            <div
-                id="ranker-grid"
-                class="ranker-grid"
-            ></div>
-
-        </section>
+        </div>
 
     </main>
 
-
-
-    <!-- =====================================================
-         GAME SCREEN
-    ====================================================== -->
-
-    <main
-        id="game-screen"
-        class="screen hidden"
-    >
-
-        <header class="game-header">
-
-            <button
-                class="back-button"
-                onclick="returnHome()"
-                type="button"
-            >
-                ← Back
-            </button>
-
-
-            <div class="game-heading">
-
-                <div
-                    id="game-icon"
-                    class="game-icon"
-                >
-                    ⭐
-                </div>
-
-
-                <div>
-
-                    <h1 id="game-title">
-                        Fandom Ranker
-                    </h1>
-
-
-                    <p id="game-subtitle">
-                        Choose your favorite
-                    </p>
-
-                </div>
-
-            </div>
-
-        </header>
-
-
-
-        <!-- =================================================
-             GAME STATS
-        ================================================== -->
-
-        <section class="game-stats">
-
-            <div class="stat-card">
-
-                <span class="stat-label">
-                    Comparisons
-                </span>
-
-
-                <strong id="comparison-count">
-                    0
-                </strong>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <span class="stat-label">
-                    Maximum
-                </span>
-
-
-                <strong id="maximum-comparisons">
-                    0
-                </strong>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <span class="stat-label">
-                    Status
-                </span>
-
-
-                <strong id="ranking-status">
-                    In progress
-                </strong>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             PROGRESS
-        ================================================== -->
-
-        <section class="progress-section">
-
-            <div class="progress-bar">
-
-                <div
-                    id="progress-fill"
-                    class="progress-fill"
-                ></div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             INSTRUCTIONS
-        ================================================== -->
-
-        <section class="instructions">
-
-            <p>
-                Which one do you prefer?
-            </p>
-
-        </section>
-
-
-
-        <!-- =================================================
-             MATCHUP
-        ================================================== -->
-
-        <section class="matchup">
-
-            <button
-                class="choice-card"
-                type="button"
-                onclick="chooseWinner('left')"
-                aria-label="Choose left item"
-            >
-
-                <div class="choice-image-wrapper">
-
-                    <img
-                        id="left-image"
-                        class="choice-image"
-                        src=""
-                        alt=""
-                    >
-
-                </div>
-
-
-                <div
-                    id="left-name"
-                    class="choice-name"
-                >
-                    Song
-                </div>
-
-
-                <div class="choice-label">
-                    Choose
-                </div>
-
-            </button>
-
-
-
-            <div
-                class="vs"
-                aria-hidden="true"
-            >
-                VS
-            </div>
-
-
-
-            <button
-                class="choice-card"
-                type="button"
-                onclick="chooseWinner('right')"
-                aria-label="Choose right item"
-            >
-
-                <div class="choice-image-wrapper">
-
-                    <img
-                        id="right-image"
-                        class="choice-image"
-                        src=""
-                        alt=""
-                    >
-
-                </div>
-
-
-                <div
-                    id="right-name"
-                    class="choice-name"
-                >
-                    Song
-                </div>
-
-
-                <div class="choice-label">
-                    Choose
-                </div>
-
-            </button>
-
-        </section>
-
-
-
-        <!-- =================================================
-             CURRENT RANKING
-        ================================================== -->
-
-        <section class="current-ranking-section">
-
-            <button
-                id="current-ranking-button"
-                class="ranking-toggle-button"
-                type="button"
-                onclick="toggleCurrentRanking()"
-            >
-                View Current Ranking
-            </button>
-
-
-            <div
-                id="current-ranking-container"
-                class="current-ranking-container hidden"
-            >
-
-                <div class="current-ranking-header">
-
-                    <h2>
-                        Current Ranking
-                    </h2>
-
-
-                    <p>
-                        This ranking updates as you make
-                        your choices.
-                    </p>
-
-                </div>
-
-
-                <div
-                    id="current-ranking"
-                    class="current-ranking"
-                ></div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-
-    <!-- =====================================================
-         RESULTS SCREEN
-    ====================================================== -->
-
-    <main
-        id="results-screen"
-        class="screen hidden"
-    >
-
-        <section class="results-header">
-
-            <div
-                id="results-icon"
-                class="results-icon"
-            >
-                ⭐
-            </div>
-
-
-            <h1 id="results-title">
-                Your Ranking
-            </h1>
-
-
-            <p id="results-subtitle">
-                You made 0 choices.
-            </p>
-
-        </section>
-
-
-
-        <!-- =================================================
-             FINAL STATS
-        ================================================== -->
-
-        <section class="final-stats">
-
-            <div class="final-stat">
-
-                <span>
-                    Comparisons
-                </span>
-
-
-                <strong id="final-comparisons">
-                    0
-                </strong>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             RESULTS
-        ================================================== -->
-
-        <section class="results-section">
-
-            <h2>
-                Your Final Ranking
-            </h2>
-
-
-            <div
-                id="results-list"
-                class="results-list"
-            ></div>
-
-        </section>
-
-
-
-        <!-- =================================================
-             RESULTS ACTIONS
-        ================================================== -->
-
-        <section class="results-actions">
-
-            <button
-                class="primary-button"
-                type="button"
-                onclick="restartGame()"
-            >
-                Rank Again
-            </button>
-
-
-            <button
-                class="secondary-button"
-                type="button"
-                onclick="returnHome()"
-            >
-                Choose Another Fandom
-            </button>
-
-        </section>
-
-    </main>
-
-
-
-    <!-- =====================================================
-         JAVASCRIPT
-    ====================================================== -->
-
-    <script
-        src="/Fandom-Ranker/rankers.js?v=5"
-    ></script>
-
-
-    <script
-        src="/Fandom-Ranker/app.js?v=5"
-    ></script>
-
-
-=======
->>>>>>> 020d58d9ca8e757eeff3859fc920fa4adce9b8a7
 </body>
 
 </html>
