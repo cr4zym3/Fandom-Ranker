@@ -8,15 +8,17 @@ app.js
 
 Universal comparison-based ranking engine.
 
-GitHub Pages clean URLs:
+Supports clean URLs:
 
-/Fandom-Ranker/
-/Fandom-Ranker/twice
-/Fandom-Ranker/mario-kart
-/Fandom-Ranker/star-wars
+/home
+/twice
+/star-wars
+/one-piece
+/mario-kart
 
 Fandom data belongs in rankers.js.
 
+DO NOT put fandom data here.
 ============================================================
 */
 
@@ -52,66 +54,94 @@ const K_FACTOR = 28;
 
 
 /* =========================================================
-   GITHUB PAGES ROUTING
+   CLEAN URL CONFIGURATION
 ========================================================= */
 
+const RANKER_URLS = {
+
+    "twice-title-tracks":
+        "/twice",
+
+    "star-wars-movies":
+        "/star-wars",
+
+    "one-piece-straw-hats":
+        "/one-piece",
+
+    "mario-kart-tracks":
+        "/mario-kart"
+
+};
+
+
 /*
-   IMPORTANT:
+    Reverse lookup.
 
-   Your GitHub Pages website is:
+    Converts:
 
-   https://cr4zym3.github.io/Fandom-Ranker/
+        /twice
 
-   Therefore all clean URLs need to keep
-   /Fandom-Ranker/ in the path.
+    into:
+
+        twice-title-tracks
 */
 
-const BASE_PATH = "/Fandom-Ranker/";
-
-
-/*
-   Get the current fandom from the browser URL.
-*/
-
-function getRankerFromURL() {
+function getRankerIdFromPath() {
 
     let path =
         window.location.pathname;
 
 
     /*
-       Remove the GitHub Pages
-       repository path.
+        Remove trailing slash.
     */
 
+    path =
+        path.replace(
+            /\/+$/,
+            ""
+        );
+
+
+    /*
+        Remove GitHub Pages repository path.
+
+        Example:
+
+        /Fandom-Ranker/twice
+
+        becomes:
+
+        /twice
+    */
+
+    const repoName =
+        "/Fandom-Ranker";
+
+
     if (
-        path.startsWith(BASE_PATH)
+        path.toLowerCase()
+            .startsWith(
+                repoName.toLowerCase()
+            )
     ) {
 
         path =
-            path.slice(
-                BASE_PATH.length
+            path.substring(
+                repoName.length
             );
 
     }
 
 
     /*
-       Remove trailing slash.
+        Empty path = home.
     */
 
-    path =
-        path.replace(
-            /\/$/,
-            ""
-        );
-
-
-    /*
-       Home page.
-    */
-
-    if (!path) {
+    if (
+        path === "" ||
+        path === "/"
+    ) {
 
         return null;
 
@@ -119,61 +149,266 @@ function getRankerFromURL() {
 
 
     /*
-       Find the matching ranker.
+        Find matching ranker.
     */
 
-    return RANKERS.find(
-        ranker =>
-            ranker.id === path
-    ) || null;
+    for (
+        const rankerId in RANKER_URLS
+    ) {
+
+        let url =
+            RANKER_URLS[
+                rankerId
+            ];
+
+        url =
+            url.replace(
+                /^\/+/,
+                ""
+            );
+
+
+        if (
+            path.toLowerCase() ===
+            `/${url}`.toLowerCase()
+        ) {
+
+            return rankerId;
+
+        }
+
+    }
+
+
+    return null;
 
 }
 
 
-/*
-   Navigate to a fandom without
-   reloading the page.
-*/
+/* =========================================================
+   GET CLEAN URL
+========================================================= */
 
-function navigateToRanker(
+function getRankerUrl(
     rankerId
 ) {
 
-    const newURL =
-        BASE_PATH +
-        rankerId;
+    /*
+        Use configured clean URL.
+    */
+
+    if (
+        RANKER_URLS[
+            rankerId
+        ]
+    ) {
+
+        return RANKER_URLS[
+            rankerId
+        ];
+
+    }
 
 
-    history.pushState(
-        {},
-        "",
-        newURL
-    );
+    /*
+        Fallback.
 
+        If a new ranker doesn't have
+        a custom URL yet, create one
+        from its ID.
+    */
+
+    const ranker =
+        RANKERS.find(
+            item =>
+                item.id === rankerId
+        );
+
+
+    if (!ranker) {
+
+        return "/home";
+
+    }
+
+
+    let slug =
+        ranker.id
+            .replace(
+                /-tracks$/,
+                ""
+            )
+            .replace(
+                /-movies$/,
+                ""
+            )
+            .replace(
+                /-characters$/,
+                ""
+            );
+
+
+    return `/${slug}`;
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function navigateTo(
+    url
+) {
+
+    /*
+        Change browser URL without
+        reloading the page.
+    */
+
+    if (
+        window.location.pathname !==
+        url
+    ) {
+
+        window.history.pushState(
+            {},
+            "",
+            url
+        );
+
+    }
+
+
+    /*
+        Handle the new URL.
+    */
+
+    handleRoute();
+
+}
+
+
+/* =========================================================
+   HANDLE BROWSER ROUTE
+========================================================= */
+
+function handleRoute() {
+
+    const path =
+        window.location.pathname;
+
+
+    /*
+        If GitHub Pages includes the
+        repository name in the URL,
+        the helper handles it.
+    */
+
+    const rankerId =
+        getRankerIdFromPath();
+
+
+    /*
+        Home route.
+    */
+
+    if (
+        rankerId === null
+    ) {
+
+        /*
+            Check whether this is an
+            unknown URL or simply home.
+
+            GitHub Pages repository root:
+
+            /Fandom-Ranker/
+
+            is treated as home.
+        */
+
+        const normalizedPath =
+            path
+                .replace(
+                    /\/+$/,
+                    ""
+                );
+
+
+        if (
+            normalizedPath === "" ||
+            normalizedPath.toLowerCase() ===
+                "/fandom-ranker"
+        ) {
+
+            showHome();
+
+            return;
+
+        }
+
+
+        /*
+            Unknown route.
+
+            Send back to home.
+        */
+
+        navigateTo(
+            getHomeUrl()
+        );
+
+        return;
+
+    }
+
+
+    /*
+        Start the appropriate ranker.
+    */
 
     startRanker(
-        rankerId
+        rankerId,
+        false
     );
 
 }
 
 
-/*
-   Navigate back to the home page.
-*/
+/* =========================================================
+   HOME URL
+========================================================= */
 
-function navigateHome() {
+function getHomeUrl() {
 
-    history.pushState(
-        {},
-        "",
-        BASE_PATH
-    );
+    /*
+        For GitHub Pages:
+
+        https://cr4zym3.github.io/Fandom-Ranker/
+
+        We use /Fandom-Ranker/ as the actual
+        root when necessary.
+    */
+
+    const path =
+        window.location.pathname;
 
 
-    returnHome(
-        true
-    );
+    if (
+        path
+            .toLowerCase()
+            .startsWith(
+                "/fandom-ranker"
+            )
+    ) {
+
+        return "/Fandom-Ranker/";
+
+    }
+
+
+    return "/home";
 
 }
 
@@ -184,115 +419,89 @@ function navigateHome() {
 
 function getTargetRatio() {
 
-    const n =
-        items.length;
+    const n = items.length;
 
 
-    /*
-       Tiny fandoms.
-    */
-
-    if (n <= 8) {
+    if (
+        n <= 8
+    ) {
 
         return 0.75;
 
     }
 
 
-    /*
-       9-10 items.
-    */
-
-    if (n <= 10) {
+    if (
+        n <= 10
+    ) {
 
         return 0.75;
 
     }
 
 
-    /*
-       11-12 items.
-    */
-
-    if (n <= 12) {
+    if (
+        n <= 12
+    ) {
 
         return 0.72;
 
     }
 
 
-    /*
-       13-15 items.
-    */
-
-    if (n <= 15) {
+    if (
+        n <= 15
+    ) {
 
         return 0.65;
 
     }
 
 
-    /*
-       16-18 items.
-    */
-
-    if (n <= 18) {
+    if (
+        n <= 18
+    ) {
 
         return 0.62;
 
     }
 
 
-    /*
-       19-22 items.
-
-       22 items = 231 possible
-       target ≈ 150 comparisons.
-    */
-
-    if (n <= 22) {
+    if (
+        n <= 22
+    ) {
 
         return 0.65;
 
     }
 
 
-    /*
-       23-30 items.
-    */
-
-    if (n <= 30) {
+    if (
+        n <= 30
+    ) {
 
         return 0.55;
 
     }
 
 
-    /*
-       31-40 items.
-    */
-
-    if (n <= 40) {
+    if (
+        n <= 40
+    ) {
 
         return 0.45;
 
     }
 
 
-    /*
-       41-60 items.
-    */
-
-    if (n <= 60) {
+    if (
+        n <= 60
+    ) {
 
         return 0.35;
 
     }
 
-
-    /*
-       Large databases.
-    */
 
     return 0.25;
 
@@ -364,7 +573,7 @@ function getPairKey(
 
 
 /* =========================================================
-   HOME
+   SHOW HOME
 ========================================================= */
 
 function showHome() {
@@ -462,20 +671,50 @@ function renderRankers() {
                 "ranker-card";
 
 
-            /*
-               CLEAN URL ROUTING
+            card.setAttribute(
+                "role",
+                "button"
+            );
 
-               Instead of directly calling
-               startRanker(), update the URL.
-            */
+
+            card.setAttribute(
+                "tabindex",
+                "0"
+            );
+
 
             card.addEventListener(
                 "click",
                 () => {
 
-                    navigateToRanker(
-                        ranker.id
+                    startRanker(
+                        ranker.id,
+                        true
                     );
+
+                }
+            );
+
+
+            card.addEventListener(
+                "keydown",
+                event => {
+
+                    if (
+                        event.key ===
+                        "Enter" ||
+                        event.key ===
+                        " "
+                    ) {
+
+                        event.preventDefault();
+
+                        startRanker(
+                            ranker.id,
+                            true
+                        );
+
+                    }
 
                 }
             );
@@ -499,6 +738,10 @@ function renderRankers() {
 
             image.alt =
                 ranker.title;
+
+
+            image.loading =
+                "lazy";
 
 
             image.onerror =
@@ -535,7 +778,8 @@ function renderRankers() {
 
 
             icon.textContent =
-                ranker.icon || "⭐";
+                ranker.icon ||
+                "⭐";
 
 
             /* TITLE */
@@ -602,7 +846,8 @@ function renderRankers() {
 ========================================================= */
 
 function startRanker(
-    rankerId
+    rankerId,
+    updateUrl = true
 ) {
 
     currentRanker =
@@ -620,6 +865,37 @@ function startRanker(
         );
 
         return;
+
+    }
+
+
+    /*
+        Update clean URL when the user
+        clicked a fandom.
+    */
+
+    if (
+        updateUrl
+    ) {
+
+        const url =
+            getRankerUrl(
+                rankerId
+            );
+
+
+        if (
+            window.location.pathname !==
+            url
+        ) {
+
+            window.history.pushState(
+                {},
+                "",
+                url
+            );
+
+        }
 
     }
 
@@ -702,7 +978,7 @@ function startRanker(
 
 
     /*
-       Reset current ranking panel.
+        Reset current ranking.
     */
 
     const rankingContainer =
@@ -745,7 +1021,8 @@ function startRanker(
     if (icon) {
 
         icon.textContent =
-            currentRanker.icon || "⭐";
+            currentRanker.icon ||
+            "⭐";
 
     }
 
@@ -800,7 +1077,9 @@ function startRanker(
 
 function chooseNextMatch() {
 
-    if (gameFinished) {
+    if (
+        gameFinished
+    ) {
 
         return;
 
@@ -863,7 +1142,7 @@ function findBestMatchup() {
 
 
     /*
-       EXPLORATION PHASE
+        Exploration phase.
     */
 
     const explorationTarget =
@@ -889,7 +1168,7 @@ function findBestMatchup() {
 
 
     /*
-       ADAPTIVE PHASE
+        Adaptive phase.
     */
 
     const candidates = [];
@@ -973,11 +1252,6 @@ function findBestMatchup() {
             b.difference
     );
 
-
-    /*
-       Random selection from the
-       most uncertain pairs.
-    */
 
     const poolSize =
         Math.min(
@@ -1193,10 +1467,6 @@ function chooseWinner(
             : leftItem;
 
 
-    /*
-       Record pair.
-    */
-
     const key =
         getPairKey(
             winner,
@@ -1214,10 +1484,6 @@ function chooseWinner(
         true
     );
 
-
-    /*
-       Update Elo.
-    */
 
     updateElo(
         winner,
@@ -1246,7 +1512,9 @@ function chooseWinner(
 
                 finishGame();
 
-            } else {
+            }
+
+            else {
 
                 chooseNextMatch();
 
@@ -1588,7 +1856,7 @@ function shouldFinish() {
 
 
     /*
-       Absolute maximum.
+        Absolute maximum.
     */
 
     if (
@@ -1605,7 +1873,7 @@ function shouldFinish() {
 
 
     /*
-       Never finish before target.
+        Never finish before target.
     */
 
     if (
@@ -1672,10 +1940,6 @@ function shouldFinish() {
     }
 
 
-    /*
-       Progress after target.
-    */
-
     const progress =
         (
             comparisons -
@@ -1698,10 +1962,6 @@ function shouldFinish() {
         );
 
 
-    /*
-       Base stopping probability.
-    */
-
     let stopChance =
         0.12 +
         (
@@ -1709,10 +1969,6 @@ function shouldFinish() {
             0.76
         );
 
-
-    /*
-       Confidence multiplier.
-    */
 
     if (
         confidence <
@@ -1744,10 +2000,6 @@ function shouldFinish() {
     }
 
 
-    /*
-       Top ranking protection.
-    */
-
     if (
         top < 0.55
     ) {
@@ -1757,11 +2009,6 @@ function shouldFinish() {
 
     }
 
-
-    /*
-       Extra protection against
-       very early endings.
-    */
 
     const earlyLimit =
         Math.ceil(
@@ -1779,10 +2026,6 @@ function shouldFinish() {
 
     }
 
-
-    /*
-       Late-game pressure.
-    */
 
     const remaining =
         maximum -
@@ -1809,10 +2052,6 @@ function shouldFinish() {
     }
 
 
-    /*
-       Clamp.
-    */
-
     stopChance =
         Math.max(
             0,
@@ -1837,7 +2076,9 @@ function shouldFinish() {
 
 function finishGame() {
 
-    if (gameFinished) {
+    if (
+        gameFinished
+    ) {
 
         return;
 
@@ -2029,6 +2270,10 @@ function updateCurrentRanking() {
                 item.name;
 
 
+            image.loading =
+                "lazy";
+
+
             image.onerror =
                 function () {
 
@@ -2170,7 +2415,9 @@ function toggleCurrentRanking() {
 
 function showResults() {
 
-    if (!currentRanker) {
+    if (
+        !currentRanker
+    ) {
 
         return;
 
@@ -2242,7 +2489,8 @@ function showResults() {
     if (icon) {
 
         icon.textContent =
-            currentRanker.icon || "⭐";
+            currentRanker.icon ||
+            "⭐";
 
     }
 
@@ -2388,6 +2636,10 @@ function showResults() {
                 item.name;
 
 
+            image.loading =
+                "lazy";
+
+
             image.onerror =
                 function () {
 
@@ -2473,7 +2725,9 @@ function showResults() {
 
 function restartGame() {
 
-    if (!currentRanker) {
+    if (
+        !currentRanker
+    ) {
 
         return;
 
@@ -2481,15 +2735,20 @@ function restartGame() {
 
 
     /*
-       Stay on the same clean URL.
+        Stay on the same clean URL.
 
-       Example:
+        Example:
 
-       /Fandom-Ranker/twice
+        /twice
+
+        stays:
+
+        /twice
     */
 
     startRanker(
-        currentRanker.id
+        currentRanker.id,
+        false
     );
 
 }
@@ -2499,26 +2758,7 @@ function restartGame() {
    RETURN HOME
 ========================================================= */
 
-function returnHome(
-    skipHistory = false
-) {
-
-    /*
-       When called from the Back button or
-       navigateHome(), don't add another
-       history entry.
-    */
-
-    if (!skipHistory) {
-
-        history.pushState(
-            {},
-            "",
-            BASE_PATH
-        );
-
-    }
-
+function returnHome() {
 
     currentRanker = null;
 
@@ -2539,6 +2779,28 @@ function returnHome(
         new Map();
 
 
+    /*
+        Change URL to home.
+    */
+
+    const homeUrl =
+        getHomeUrl();
+
+
+    if (
+        window.location.pathname !==
+        homeUrl
+    ) {
+
+        window.history.pushState(
+            {},
+            "",
+            homeUrl
+        );
+
+    }
+
+
     showHome();
 
 }
@@ -2552,42 +2814,33 @@ window.addEventListener(
     "popstate",
     () => {
 
-        const ranker =
-            getRankerFromURL();
+        /*
+            Stop the current game state.
+
+            The URL determines what should
+            be displayed.
+        */
+
+        currentRanker = null;
+
+        items = [];
+
+        comparisons = 0;
+
+        leftItem = null;
+
+        rightItem = null;
+
+        gameFinished = false;
+
+        comparedPairs =
+            new Set();
+
+        pairHistory =
+            new Map();
 
 
-        if (ranker) {
-
-            startRanker(
-                ranker.id
-            );
-
-        }
-
-        else {
-
-            currentRanker = null;
-
-            items = [];
-
-            comparisons = 0;
-
-            leftItem = null;
-
-            rightItem = null;
-
-            gameFinished = false;
-
-            comparedPairs =
-                new Set();
-
-            pairHistory =
-                new Map();
-
-
-            showHome();
-
-        }
+        handleRoute();
 
     }
 );
@@ -2602,34 +2855,36 @@ document.addEventListener(
     () => {
 
         /*
-           First render the home cards.
+            Make sure rankers.js loaded.
+        */
+
+        if (
+            typeof RANKERS ===
+            "undefined"
+        ) {
+
+            console.error(
+                "RANKERS is not defined. Make sure rankers.js loads before app.js."
+            );
+
+            return;
+
+        }
+
+
+        /*
+            Render home cards first.
         */
 
         renderRankers();
 
 
         /*
-           Check whether the user opened
-           a clean fandom URL directly.
+            Then determine which URL
+            the visitor is on.
         */
 
-        const ranker =
-            getRankerFromURL();
-
-
-        if (ranker) {
-
-            startRanker(
-                ranker.id
-            );
-
-        }
-
-        else {
-
-            showHome();
-
-        }
+        handleRoute();
 
     }
 );
