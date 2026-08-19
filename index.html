@@ -2,66 +2,29 @@
 <html lang="en">
 
 <head>
-    <meta name="google-site-verification" content="WN8J3xaVPmGSlzUMgXVI2V9psVdlgCHGQHKTgtj4dfQ" />
-    <!-- =====================================================
-         BASIC PAGE SETTINGS
-    ====================================================== -->
 
     <meta charset="UTF-8">
 
     <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
->
-
-    <meta
-    name="description"
-    content="Fandom Ranker lets you rank your favorite songs, characters, movies, and more through fun head-to-head comparisons. Build your personal rankings by choosing between two favorites at a time."
->
-<meta
-    name="keywords"
-    content="Fandom Ranker, ranking game, fandom ranking, song ranking, character ranking, head to head ranking, favorite songs, favorite characters"
->
-
-<meta
-    name="author"
-    content="Fandom Ranker"
->
-
-<meta
-    name="robots"
-    content="index, follow"
->
-
-    <title>Fandom Ranker</title>
-
-
-    <!-- =====================================================
-         PWA
-    ====================================================== -->
-
-    <!-- PWA manifest -->
-    <link
-        rel="manifest"
-        href="manifest.json"
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     >
 
+    <meta
+        name="description"
+        content="Fandom Ranker - Rank your favorite songs, characters, movies, games, tracks, and more through head-to-head comparisons."
+    >
 
-    <!-- Browser / app theme -->
     <meta
         name="theme-color"
         content="#15132b"
     >
 
-
-    <!-- Android -->
     <meta
         name="mobile-web-app-capable"
         content="yes"
     >
 
-
-    <!-- iPhone / iPad -->
     <meta
         name="apple-mobile-web-app-capable"
         content="yes"
@@ -78,23 +41,35 @@
     >
 
 
-    <!-- iOS home-screen icon -->
+    <title>Fandom Ranker</title>
+
+
+    <!-- =====================================================
+         PWA
+    ====================================================== -->
+
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
+
     <link
         rel="apple-touch-icon"
-        href="icon-192.png"
+        href="images/icon-192.png"
     >
 
 
     <!-- =====================================================
          STYLESHEET
+         Increase ?v=5 whenever you update CSS
     ====================================================== -->
 
     <link
-    rel="stylesheet"
-    href="style.css?v=4"
+        rel="stylesheet"
+        href="style.css?v=5"
     >
-    <script src="rankers.js?v=4"></script>
-    <script src="app.js?v=4"></script>
+
+
 </head>
 
 
@@ -375,7 +350,7 @@
 
         <!-- =================================================
              CURRENT RANKING
-        ====================================================== -->
+        ================================================== -->
 
         <section class="current-ranking-section">
 
@@ -540,13 +515,16 @@
     ====================================================== -->
 
     <!--
-        rankers.js MUST come first because app.js
-        uses the global RANKERS array.
+        rankers.js MUST load before app.js
+        because app.js uses the global RANKERS array.
+
+        Increase ?v=5 to ?v=6 whenever you
+        make changes to these files.
     -->
 
-    <script src="rankers.js?v=2"></script>
-    <script src="app.js?v=2"></script>
+    <script src="rankers.js?v=5"></script>
 
+    <script src="app.js?v=5"></script>
 
 
     <!-- =====================================================
@@ -559,32 +537,31 @@
 
             window.addEventListener(
                 "load",
-                () => {
+                function () {
 
-                    navigator.serviceWorker
-                        .register(
-                            "./service-worker.js"
-                        )
-                        .then(
-                            registration => {
+                    navigator.serviceWorker.register(
+                        "service-worker.js?v=5"
+                    )
+                    .then(
+                        function (registration) {
 
-                                console.log(
-                                    "Fandom Ranker service worker registered:",
-                                    registration.scope
-                                );
+                            console.log(
+                                "Fandom Ranker service worker registered:",
+                                registration.scope
+                            );
 
-                            }
-                        )
-                        .catch(
-                            error => {
+                        }
+                    )
+                    .catch(
+                        function (error) {
 
-                                console.error(
-                                    "Service worker registration failed:",
-                                    error
-                                );
+                            console.error(
+                                "Service worker registration failed:",
+                                error
+                            );
 
-                            }
-                        );
+                        }
+                    );
 
                 }
             );
