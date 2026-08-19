@@ -5,11 +5,10 @@ FANDOM RANKER DATABASE
 
 DO NOT put game logic here.
 
-Add new fandoms inside RANKERS.
-
 Each ranker needs:
 
 id
+slug
 title
 description
 subtitle
@@ -17,11 +16,21 @@ icon
 image
 items
 
+The "slug" controls the clean URL.
+
+Examples:
+
+/Fandom-Ranker/twice
+/Fandom-Ranker/star-wars
+/Fandom-Ranker/straw-hats
+/Fandom-Ranker/mario-kart
+
 ============================================================
 */
 
 
 const RANKERS = [
+
 
     /* =====================================================
        TWICE
@@ -30,6 +39,8 @@ const RANKERS = [
     {
 
         id: "twice-title-tracks",
+
+        slug: "twice",
 
         title: "TWICE Title Tracks",
 
@@ -170,6 +181,8 @@ const RANKERS = [
 
         id: "star-wars-movies",
 
+        slug: "star-wars",
+
         title: "Star Wars Movies",
 
         description:
@@ -258,165 +271,216 @@ const RANKERS = [
 
 
     /* =====================================================
-       ATTACK ON TITAN CHARACTERS
+       ONE PIECE STRAW HATS
     ===================================================== */
 
     {
-    id: "one-piece-straw-hats",
 
-    title: "One Piece Straw Hats",
+        id: "one-piece-straw-hats",
 
-    subtitle: "Rank your favorite Straw Hat Pirates",
+        slug: "straw-hats",
 
-    icon: "🏴‍☠️",
+        title: "One Piece Straw Hats",
 
-    image: "images/one_piece.jpg",
+        description:
+            "Rank the Straw Hat Pirates",
 
-    items: [
+        subtitle:
+            "Rank your favorite Straw Hat Pirates",
 
-        {
-            name: "Luffy",
-            image: "images/one_piece/luffy.jpg"
-        },
+        icon: "🏴‍☠️",
 
-        {
-            name: "Zoro",
-            image: "images/one_piece/zoro.jpg"
-        },
+        image:
+            "images/one_piece.jpg",
 
-        {
-            name: "Nami",
-            image: "images/one_piece/nami.jpg"
-        },
 
-        {
-            name: "Usopp",
-            image: "images/one_piece/usopp.jpg"
-        },
+        items: [
 
-        {
-            name: "Sanji",
-            image: "images/one_piece/sanji.jpg"
-        },
+            {
+                name: "Luffy",
+                image:
+                    "images/one_piece/luffy.jpg"
+            },
 
-        {
-            name: "Chopper",
-            image: "images/one_piece/chopper.jpg"
-        },
+            {
+                name: "Zoro",
+                image:
+                    "images/one_piece/zoro.jpg"
+            },
 
-        {
-            name: "Nico Robin",
-            image: "images/one_piece/robin.jpg"
-        },
+            {
+                name: "Nami",
+                image:
+                    "images/one_piece/nami.jpg"
+            },
 
-        {
-            name: "Franky",
-            image: "images/one_piece/franky.jpg"
-        },
+            {
+                name: "Usopp",
+                image:
+                    "images/one_piece/usopp.jpg"
+            },
 
-        {
-            name: "Brook",
-            image: "images/one_piece/brook.jpg"
-        },
+            {
+                name: "Sanji",
+                image:
+                    "images/one_piece/sanji.jpg"
+            },
 
-        {
-            name: "Jinbe",
-            image: "images/one_piece/jinbe.jpg"
-        }
+            {
+                name: "Chopper",
+                image:
+                    "images/one_piece/chopper.jpg"
+            },
 
-    ]
+            {
+                name: "Nico Robin",
+                image:
+                    "images/one_piece/robin.jpg"
+            },
+
+            {
+                name: "Franky",
+                image:
+                    "images/one_piece/franky.jpg"
+            },
+
+            {
+                name: "Brook",
+                image:
+                    "images/one_piece/brook.jpg"
+            },
+
+            {
+                name: "Jinbe",
+                image:
+                    "images/one_piece/jinbe.jpg"
+            }
+
+        ]
+
     },
+
+
+    /* =====================================================
+       MARIO KART TRACKS
+    ===================================================== */
+
     {
+
         id: "mario-kart-tracks",
+
+        slug: "mario-kart",
 
         title: "Mario Kart Tracks",
 
-        subtitle: "Rank your favorite Mario Kart tracks",
+        description:
+            "Rank your favorite Mario Kart tracks",
+
+        subtitle:
+            "Rank your favorite Mario Kart tracks",
 
         icon: "🏎️",
 
-        image: "images/mario_kart.jpg",
+        image:
+            "images/mario_kart.jpg",
+
 
         items: [
 
             {
                 name: "Mario Kart Stadium",
-                image: "images/mario_kart/mario_kart_stadium.jpg"
+                image:
+                    "images/mario_kart/mario_kart_stadium.jpg"
             },
 
             {
                 name: "Water Park",
-                image: "images/mario_kart/water_park.jpg"
+                image:
+                    "images/mario_kart/water_park.jpg"
             },
 
             {
                 name: "Sweet Sweet Canyon",
-                image: "images/mario_kart/sweet_sweet_canyon.jpg"
+                image:
+                    "images/mario_kart/sweet_sweet_canyon.jpg"
             },
 
             {
                 name: "Thwomp Ruins",
-                image: "images/mario_kart/thwomp_ruins.jpg"
+                image:
+                    "images/mario_kart/thwomp_ruins.jpg"
             },
 
             {
                 name: "Mario Circuit",
-                image: "images/mario_kart/mario_circuit.jpg"
+                image:
+                    "images/mario_kart/mario_circuit.jpg"
             },
 
             {
                 name: "Toad Harbor",
-                image: "images/mario_kart/toad_harbor.jpg"
+                image:
+                    "images/mario_kart/toad_harbor.jpg"
             },
 
             {
                 name: "Twisted Mansion",
-                image: "images/mario_kart/twisted_mansion.jpg"
+                image:
+                    "images/mario_kart/twisted_mansion.jpg"
             },
 
             {
                 name: "Shy Guy Falls",
-                image: "images/mario_kart/shy_guy_falls.jpg"
+                image:
+                    "images/mario_kart/shy_guy_falls.jpg"
             },
 
             {
                 name: "Sunshine Airport",
-                image: "images/mario_kart/sunshine_airport.jpg"
+                image:
+                    "images/mario_kart/sunshine_airport.jpg"
             },
 
             {
                 name: "Dolphin Shoals",
-                image: "images/mario_kart/dolphin_shoals.jpg"
+                image:
+                    "images/mario_kart/dolphin_shoals.jpg"
             },
 
             {
                 name: "Electrodrome",
-                image: "images/mario_kart/electrodrome.jpg"
+                image:
+                    "images/mario_kart/electrodrome.jpg"
             },
 
             {
                 name: "Mount Wario",
-                image: "images/mario_kart/mount_wario.jpg"
+                image:
+                    "images/mario_kart/mount_wario.jpg"
             },
 
             {
                 name: "Cloudtop Cruise",
-                image: "images/mario_kart/cloudtop_cruise.jpg"
+                image:
+                    "images/mario_kart/cloudtop_cruise.jpg"
             },
 
             {
                 name: "Bone-Dry Dunes",
-                image: "images/mario_kart/bone_dry_dunes.jpg"
+                image:
+                    "images/mario_kart/bone_dry_dunes.jpg"
             },
 
             {
                 name: "Bowser's Castle",
-                image: "images/mario_kart/bowsers_castle.jpg"
+                image:
+                    "images/mario_kart/bowsers_castle.jpg"
             },
 
             {
                 name: "Rainbow Road",
-                image: "images/mario_kart/rainbow_road.jpg"
+                image:
+                    "images/mario_kart/rainbow_road.jpg"
             }
 
         ]
