@@ -10,160 +10,89 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <meta
-        name="theme-color"
-        content="#111827"
-    >
-
     <title>Fandom Ranker</title>
-
-    <script>
-
-        /*
-        ============================================================
-        FANDOM RANKER
-        GITHUB PAGES 404 ROUTER
-        ============================================================
-
-        GitHub Pages project:
-
-        https://cr4zym3.github.io/Fandom-Ranker/
-
-        GitHub Pages does not know about client-side routes such as:
-
-        /Fandom-Ranker/home
-        /Fandom-Ranker/star-wars-movies
-        /Fandom-Ranker/twice
-
-        When one of those URLs is refreshed, GitHub Pages loads
-        this 404.html file.
-
-        This file temporarily converts the route into a query
-        string so GitHub Pages serves index.html.
-
-        index.html then restores the clean URL.
-        ============================================================
-        */
-
-
-        (function () {
-
-            var location = window.location;
-
-            var basePath = "/Fandom-Ranker/";
-
-
-            /*
-            --------------------------------------------------------
-            GET THE PATH AFTER /Fandom-Ranker/
-            --------------------------------------------------------
-            */
-
-            var path =
-                location.pathname.substring(
-                    basePath.length
-                );
-
-
-            /*
-            --------------------------------------------------------
-            GET SEARCH PARAMETERS
-            --------------------------------------------------------
-            */
-
-            var search =
-                location.search;
-
-
-            /*
-            --------------------------------------------------------
-            GET HASH
-            --------------------------------------------------------
-            */
-
-            var hash =
-                location.hash;
-
-
-            /*
-            --------------------------------------------------------
-            BUILD TEMPORARY URL
-            --------------------------------------------------------
-
-            Example:
-
-            /Fandom-Ranker/star-wars-movies
-
-            becomes:
-
-            /Fandom-Ranker/?/star-wars-movies
-            --------------------------------------------------------
-            */
-
-
-            var redirectUrl =
-                basePath +
-                "?/" +
-                path;
-
-
-            /*
-            --------------------------------------------------------
-            PRESERVE QUERY PARAMETERS
-            --------------------------------------------------------
-            */
-
-            if (
-                search &&
-                search.length > 0
-            ) {
-
-                redirectUrl +=
-                    "&" +
-                    search.substring(1);
-
-            }
-
-
-            /*
-            --------------------------------------------------------
-            PRESERVE HASH
-            --------------------------------------------------------
-            */
-
-            if (
-                hash &&
-                hash.length > 0
-            ) {
-
-                redirectUrl +=
-                    hash;
-
-            }
-
-
-            /*
-            --------------------------------------------------------
-            REDIRECT TO INDEX.HTML
-            --------------------------------------------------------
-            */
-
-            window.location.replace(
-                redirectUrl
-            );
-
-        })();
-
-    </script>
 
 </head>
 
 
 <body>
 
-    <p>
-        Loading Fandom Ranker...
-    </p>
+<script>
+
+(function () {
+
+    const BASE_PATH = "/Fandom-Ranker";
+
+    const pathname =
+        window.location.pathname;
+
+    const search =
+        window.location.search;
+
+
+    /*
+        Remove the repository path.
+    */
+
+    let route =
+        pathname;
+
+
+    if (
+        route.startsWith(
+            BASE_PATH
+        )
+    ) {
+
+        route =
+            route.substring(
+                BASE_PATH.length
+            );
+
+    }
+
+
+    /*
+        Remove leading/trailing slashes.
+    */
+
+    route =
+        route
+            .replace(/^\/+/, "")
+            .replace(/\/+$/, "");
+
+
+    /*
+        If GitHub sent us to 404.html because of an
+        application route, send that route back to the
+        application's index.
+
+        Example:
+
+        /Fandom-Ranker/star-wars-movies
+
+        becomes temporarily:
+
+        /Fandom-Ranker/?route=star-wars-movies
+
+        app.js then restores the clean URL.
+    */
+
+    const target =
+        BASE_PATH +
+        "/?route=" +
+        encodeURIComponent(
+            route || "home"
+        );
+
+
+    window.location.replace(
+        target
+    );
+
+})();
+
+</script>
 
 </body>
 
