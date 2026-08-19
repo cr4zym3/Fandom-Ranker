@@ -2,7 +2,132 @@
 <html lang="en">
 
 <head>
+    <script>
+(function () {
 
+    const BASE_PATH = "/Fandom-Ranker";
+
+    const search = window.location.search;
+
+    /*
+    ------------------------------------------------------------
+    GITHUB PAGES 404 ROUTE RESTORATION
+    ------------------------------------------------------------
+
+    404.html temporarily changes:
+
+        /Fandom-Ranker/star-wars-movies
+
+    into:
+
+        /Fandom-Ranker/?/star-wars-movies
+
+    This restores the clean URL BEFORE app.js loads.
+    */
+
+    if (
+        search &&
+        search.indexOf("?/") === 0
+    ) {
+
+        let route =
+            search.substring(2);
+
+        /*
+        Separate hash if one exists.
+        */
+
+        let hash = "";
+
+        const hashIndex =
+            route.indexOf("#");
+
+        if (
+            hashIndex !== -1
+        ) {
+
+            hash =
+                route.substring(hashIndex);
+
+            route =
+                route.substring(
+                    0,
+                    hashIndex
+                );
+
+        }
+
+
+        /*
+        Separate extra query parameters.
+        */
+
+        let query = "";
+
+        const queryIndex =
+            route.indexOf("&");
+
+        if (
+            queryIndex !== -1
+        ) {
+
+            const extraQuery =
+                route.substring(
+                    queryIndex + 1
+                );
+
+            route =
+                route.substring(
+                    0,
+                    queryIndex
+                );
+
+            if (
+                extraQuery
+            ) {
+
+                query =
+                    "?" +
+                    extraQuery;
+
+            }
+
+        }
+
+
+        /*
+        Clean the route.
+        */
+
+        route =
+            route.replace(
+                /^\/+/,
+                ""
+            );
+
+
+        /*
+        Restore the original clean URL.
+        */
+
+        const restoredURL =
+            BASE_PATH +
+            "/" +
+            route +
+            query +
+            hash;
+
+
+        window.history.replaceState(
+            {},
+            "",
+            restoredURL
+        );
+
+    }
+
+})();
+</script>
     <meta charset="UTF-8">
 
     <meta
