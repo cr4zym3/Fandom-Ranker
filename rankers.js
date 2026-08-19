@@ -341,82 +341,82 @@ const RANKERS = [
 
             {
                 name: "Mario Kart Stadium",
-                image: "images/mario_kart_stadium.jpg"
+                image: "images/mario_kart/mario_kart_stadium.jpg"
             },
 
             {
                 name: "Water Park",
-                image: "images/water_park.jpg"
+                image: "images/mario_kart/water_park.jpg"
             },
 
             {
                 name: "Sweet Sweet Canyon",
-                image: "images/sweet_sweet_canyon.jpg"
+                image: "images/mario_kart/sweet_sweet_canyon.jpg"
             },
 
             {
                 name: "Thwomp Ruins",
-                image: "images/thwomp_ruins.jpg"
+                image: "images/mario_kart/thwomp_ruins.jpg"
             },
 
             {
                 name: "Mario Circuit",
-                image: "images/mario_circuit.jpg"
+                image: "images/mario_kart/mario_circuit.jpg"
             },
 
             {
                 name: "Toad Harbor",
-                image: "images/toad_harbor.jpg"
+                image: "images/mario_kart/toad_harbor.jpg"
             },
 
             {
                 name: "Twisted Mansion",
-                image: "images/twisted_mansion.jpg"
+                image: "images/mario_kart/twisted_mansion.jpg"
             },
 
             {
                 name: "Shy Guy Falls",
-                image: "images/shy_guy_falls.jpg"
+                image: "images/mario_kart/shy_guy_falls.jpg"
             },
 
             {
                 name: "Sunshine Airport",
-                image: "images/sunshine_airport.jpg"
+                image: "images/mario_kart/sunshine_airport.jpg"
             },
 
             {
                 name: "Dolphin Shoals",
-                image: "images/dolphin_shoals.jpg"
+                image: "images/mario_kart/dolphin_shoals.jpg"
             },
 
             {
                 name: "Electrodrome",
-                image: "images/electrodrome.jpg"
+                image: "images/mario_kart/electrodrome.jpg"
             },
 
             {
                 name: "Mount Wario",
-                image: "images/mount_wario.jpg"
+                image: "images/mario_kart/mount_wario.jpg"
             },
 
             {
                 name: "Cloudtop Cruise",
-                image: "images/cloudtop_cruise.jpg"
+                image: "images/mario_kart/cloudtop_cruise.jpg"
             },
 
             {
                 name: "Bone-Dry Dunes",
-                image: "images/bone_dry_dunes.jpg"
+                image: "images/mario_kart/bone_dry_dunes.jpg"
             },
 
             {
                 name: "Bowser's Castle",
-                image: "images/bowsers_castle.jpg"
+                image: "images/mario_kart/bowsers_castle.jpg"
             },
 
             {
                 name: "Rainbow Road",
-                image: "images/rainbow_road.jpg"
+                image: "images/mario_kart/rainbow_road.jpg"
             }
 
         ]
