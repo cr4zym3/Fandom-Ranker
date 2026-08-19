@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "Fandom-Ranker",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Fandom-Ranker"
+	}
+}

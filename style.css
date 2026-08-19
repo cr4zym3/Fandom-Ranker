@@ -1,0 +1,2101 @@
+/*
+============================================================
+FANDOM RANKER
+STYLE SHEET
+============================================================
+
+Responsive version
+
+Designed for:
+
+- Desktop / laptop viewport fitting
+- Tablets
+- Phones
+- Very small phones
+- Fandom selection
+- Head-to-head ranking
+- Current ranking
+- Results
+
+Original visual design maintained.
+============================================================
+*/
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    min-height: 100vh;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    color: #ffffff;
+
+    background:
+        radial-gradient(
+            circle at top,
+            #29234b 0%,
+            #15132b 42%,
+            #0c0b18 100%
+        );
+
+    background-attachment: fixed;
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   GENERAL
+========================================================= */
+
+button {
+    font-family: inherit;
+}
+
+
+button:focus-visible {
+    outline: 3px solid #ff7ac8;
+    outline-offset: 3px;
+}
+
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+
+.screen {
+    width: 100%;
+    min-height: 100vh;
+
+    padding:
+        22px
+        20px
+        35px;
+}
+
+
+/* =========================================================
+   HOME
+========================================================= */
+
+#home-screen {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+.home-header {
+    text-align: center;
+
+    max-width: 760px;
+
+    margin:
+        15px
+        auto
+        32px;
+}
+
+
+.home-icon {
+    font-size: 3.4rem;
+
+    margin-bottom: 8px;
+
+    filter:
+        drop-shadow(
+            0 8px 25px
+            rgba(255, 105, 180, 0.35)
+        );
+}
+
+
+.home-header h1 {
+    font-size: clamp(
+        2.2rem,
+        5vw,
+        3.7rem
+    );
+
+    font-weight: 900;
+
+    letter-spacing: -2px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #ffb7df,
+            #bda7ff
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+
+.home-header p {
+    margin-top: 10px;
+
+    color: #aaa7c4;
+
+    font-size: 1rem;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   RANKER SECTION
+========================================================= */
+
+.ranker-section {
+    width: 100%;
+}
+
+
+.ranker-section h2 {
+    text-align: center;
+
+    margin-bottom: 18px;
+
+    font-size: 1.4rem;
+
+    font-weight: 800;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   RANKER GRID
+========================================================= */
+
+.ranker-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                230px,
+                1fr
+            )
+        );
+
+    gap: 18px;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   RANKER CARD
+========================================================= */
+
+.ranker-card {
+    position: relative;
+
+    overflow: hidden;
+
+    cursor: pointer;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(47, 42, 78, 0.95),
+            rgba(27, 24, 48, 0.98)
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+    box-shadow:
+        0 12px 35px
+        rgba(
+            0,
+            0,
+            0,
+            0.3
+        );
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.ranker-card:hover {
+    transform:
+        translateY(-6px);
+
+    border-color:
+        rgba(
+            255,
+            130,
+            202,
+            0.45
+        );
+
+    box-shadow:
+        0 18px 45px
+        rgba(
+            0,
+            0,
+            0,
+            0.45
+        );
+}
+
+
+.ranker-card:active {
+    transform:
+        translateY(-2px)
+        scale(0.99);
+}
+
+
+/* =========================================================
+   RANKER CARD IMAGE
+========================================================= */
+
+.ranker-card-image {
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    object-fit: cover;
+
+    background: #211e39;
+}
+
+
+/* =========================================================
+   RANKER CARD INFO
+========================================================= */
+
+.ranker-card-info {
+    position: relative;
+
+    padding: 17px;
+}
+
+
+.ranker-card-icon {
+    font-size: 1.5rem;
+
+    margin-bottom: 6px;
+}
+
+
+.ranker-card-info h3 {
+    font-size: 1.2rem;
+
+    font-weight: 800;
+
+    color: #ffffff;
+}
+
+
+.ranker-card-info p {
+    margin-top: 5px;
+
+    font-size: 0.85rem;
+
+    color: #9996b4;
+}
+
+
+/* =========================================================
+   GAME SCREEN
+========================================================= */
+
+#game-screen {
+    max-width: 1200px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   GAME HEADER
+========================================================= */
+
+.game-header {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 18px;
+}
+
+
+.back-button {
+    border: none;
+
+    border-radius: 12px;
+
+    padding:
+        9px
+        13px;
+
+    color: #d9d5ee;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.07
+        );
+
+    cursor: pointer;
+
+    font-size: 0.9rem;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.back-button:hover {
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.13
+        );
+
+    transform:
+        translateX(-2px);
+}
+
+
+.game-heading {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.game-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 46px;
+    height: 46px;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff5eaa,
+            #9b7cff
+        );
+
+    font-size: 1.45rem;
+
+    box-shadow:
+        0 8px 25px
+        rgba(
+            255,
+            95,
+            175,
+            0.25
+        );
+}
+
+
+.game-heading h1 {
+    font-size: 1.65rem;
+
+    font-weight: 850;
+}
+
+
+.game-heading p {
+    margin-top: 2px;
+
+    color: #9996b4;
+
+    font-size: 0.9rem;
+}
+
+
+/* =========================================================
+   GAME STATS
+========================================================= */
+
+.game-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            1fr
+        );
+
+    gap: 12px;
+
+    margin-bottom: 12px;
+}
+
+
+.stat-card {
+    padding: 12px;
+
+    text-align: center;
+
+    border-radius: 13px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.055
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.07
+        );
+}
+
+
+.stat-label {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #9290aa;
+
+    font-size: 0.72rem;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.8px;
+}
+
+
+.stat-card strong {
+    font-size: 1.15rem;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress-section {
+    margin-bottom: 16px;
+}
+
+
+.progress-bar {
+    width: 100%;
+
+    height: 7px;
+
+    overflow: hidden;
+
+    border-radius: 99px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+}
+
+
+.progress-fill {
+    width: 0%;
+
+    height: 100%;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff5eaa,
+            #9f7cff
+        );
+
+    transition:
+        width 0.25s ease;
+}
+
+
+/* =========================================================
+   INSTRUCTIONS
+========================================================= */
+
+.instructions {
+    text-align: center;
+
+    margin-bottom: 14px;
+}
+
+
+.instructions p {
+    color: #aaa7c2;
+
+    font-size: 0.92rem;
+}
+
+
+/* =========================================================
+   MATCHUP
+========================================================= */
+
+.matchup {
+    display: grid;
+
+    grid-template-columns:
+        minmax(
+            0,
+            1fr
+        )
+        auto
+        minmax(
+            0,
+            1fr
+        );
+
+    align-items: center;
+
+    gap: 15px;
+
+    max-width: 900px;
+
+    margin:
+        0
+        auto
+        18px;
+}
+
+
+/* =========================================================
+   CHOICE CARD
+========================================================= */
+
+.choice-card {
+    width: 100%;
+
+    padding: 0;
+
+    overflow: hidden;
+
+    border:
+        2px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(
+                46,
+                42,
+                77,
+                0.98
+            ),
+            rgba(
+                25,
+                23,
+                45,
+                0.98
+            )
+        );
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 15px 40px
+        rgba(
+            0,
+            0,
+            0,
+            0.3
+        );
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.choice-card:hover {
+    transform:
+        translateY(-5px);
+
+    border-color:
+        rgba(
+            255,
+            116,
+            190,
+            0.65
+        );
+
+    box-shadow:
+        0 20px 45px
+        rgba(
+            0,
+            0,
+            0,
+            0.45
+        );
+}
+
+
+.choice-card:active {
+    transform:
+        translateY(-1px)
+        scale(0.99);
+}
+
+
+/* =========================================================
+   CHOICE IMAGE
+========================================================= */
+
+.choice-image-wrapper {
+    width: 100%;
+
+    /*
+        Desktop cards are slightly shorter than before.
+
+        This is the main change that lets the entire
+        game fit on normal laptop screens.
+    */
+
+    aspect-ratio: 1 / 0.88;
+
+    overflow: hidden;
+
+    background: #211e39;
+}
+
+
+.choice-image {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.3s ease;
+}
+
+
+.choice-card:hover
+.choice-image {
+    transform:
+        scale(1.035);
+}
+
+
+/* =========================================================
+   CHOICE NAME
+========================================================= */
+
+.choice-name {
+    padding:
+        12px
+        15px
+        3px;
+
+    font-size: 1.15rem;
+
+    font-weight: 850;
+
+    line-height: 1.2;
+}
+
+
+.choice-label {
+    padding:
+        0
+        15px
+        12px;
+
+    color: #9d99b7;
+
+    font-size: 0.78rem;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   VS
+========================================================= */
+
+.vs {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 50px;
+    height: 50px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff5ca9,
+            #9b7cff
+        );
+
+    font-size: 0.85rem;
+
+    font-weight: 900;
+
+    letter-spacing: 1px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(
+            255,
+            93,
+            175,
+            0.25
+        );
+}
+
+
+/* =========================================================
+   CURRENT RANKING SECTION
+========================================================= */
+
+.current-ranking-section {
+    max-width: 900px;
+
+    margin:
+        0
+        auto;
+}
+
+
+/* =========================================================
+   RANKING TOGGLE BUTTON
+========================================================= */
+
+.ranking-toggle-button {
+    display: block;
+
+    width: 100%;
+
+    padding:
+        11px
+        20px;
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.1
+        );
+
+    border-radius: 13px;
+
+    color: #ffffff;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.06
+        );
+
+    cursor: pointer;
+
+    font-size: 0.9rem;
+
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.ranking-toggle-button:hover {
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.1
+        );
+
+    border-color:
+        rgba(
+            255,
+            126,
+            197,
+            0.4
+        );
+
+    transform:
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   CURRENT RANKING CONTAINER
+========================================================= */
+
+.current-ranking-container {
+    margin-top: 12px;
+
+    padding: 17px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(
+            22,
+            20,
+            40,
+            0.9
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+}
+
+
+.current-ranking-header {
+    text-align: center;
+
+    margin-bottom: 12px;
+}
+
+
+.current-ranking-header h2 {
+    font-size: 1.25rem;
+
+    font-weight: 850;
+}
+
+
+.current-ranking-header p {
+    margin-top: 3px;
+
+    color: #9290aa;
+
+    font-size: 0.8rem;
+}
+
+
+/* =========================================================
+   CURRENT RANKING LIST
+========================================================= */
+
+.current-ranking {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+.current-ranking-item {
+    display: grid;
+
+    grid-template-columns:
+        38px
+        45px
+        1fr
+        60px;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-height: 52px;
+
+    padding:
+        5px
+        10px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.045
+        );
+
+    transition:
+        background 0.15s ease;
+}
+
+
+.current-ranking-item:hover {
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.075
+        );
+}
+
+
+.current-ranking-number {
+    text-align: center;
+
+    color: #aaa7c2;
+
+    font-size: 0.9rem;
+
+    font-weight: 800;
+}
+
+
+.current-ranking-image {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 8px;
+
+    object-fit: cover;
+
+    background: #211e39;
+}
+
+
+.current-ranking-name {
+    overflow: hidden;
+
+    color: #ffffff;
+
+    font-size: 0.9rem;
+
+    font-weight: 650;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.current-ranking-rating {
+    text-align: right;
+
+    color: #aaa7c2;
+
+    font-size: 0.8rem;
+
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================================
+   RESULTS SCREEN
+========================================================= */
+
+#results-screen {
+    max-width: 950px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   RESULTS HEADER
+========================================================= */
+
+.results-header {
+    text-align: center;
+
+    margin:
+        20px
+        auto
+        25px;
+}
+
+
+.results-icon {
+    font-size: 3.4rem;
+
+    margin-bottom: 8px;
+
+    filter:
+        drop-shadow(
+            0 8px 25px
+            rgba(
+                255,
+                105,
+                180,
+                0.35
+            )
+        );
+}
+
+
+.results-header h1 {
+    font-size: clamp(
+        2rem,
+        5vw,
+        3.2rem
+    );
+
+    font-weight: 900;
+}
+
+
+.results-header p {
+    margin-top: 7px;
+
+    color: #aaa7c4;
+
+    font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   FINAL STATS
+========================================================= */
+
+.final-stats {
+    display: flex;
+
+    justify-content: center;
+
+    margin-bottom: 22px;
+}
+
+
+.final-stat {
+    min-width: 170px;
+
+    padding:
+        13px
+        22px;
+
+    text-align: center;
+
+    border-radius: 14px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.055
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
+}
+
+
+.final-stat span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #9692ae;
+
+    font-size: 0.75rem;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.7px;
+}
+
+
+.final-stat strong {
+    font-size: 1.3rem;
+}
+
+
+/* =========================================================
+   RESULTS SECTION
+========================================================= */
+
+.results-section {
+    margin-bottom: 25px;
+}
+
+
+.results-section h2 {
+    margin-bottom: 13px;
+
+    text-align: center;
+
+    font-size: 1.4rem;
+
+    font-weight: 850;
+}
+
+
+/* =========================================================
+   RESULTS LIST
+========================================================= */
+
+.results-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+
+.result-item {
+    display: grid;
+
+    grid-template-columns:
+        50px
+        58px
+        1fr
+        65px;
+
+    align-items: center;
+
+    gap: 12px;
+
+    min-height: 62px;
+
+    padding:
+        6px
+        12px;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(
+                47,
+                43,
+                76,
+                0.9
+            ),
+            rgba(
+                29,
+                26,
+                51,
+                0.95
+            )
+        );
+
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.06
+        );
+}
+
+
+.result-rank {
+    text-align: center;
+
+    color: #c0bdd1;
+
+    font-size: 0.95rem;
+
+    font-weight: 850;
+}
+
+
+.result-image {
+    width: 52px;
+    height: 52px;
+
+    border-radius: 9px;
+
+    object-fit: cover;
+
+    background: #211e39;
+}
+
+
+.result-name {
+    color: #ffffff;
+
+    font-size: 0.95rem;
+
+    font-weight: 700;
+}
+
+
+.result-rating {
+    text-align: right;
+
+    color: #aaa7c2;
+
+    font-size: 0.85rem;
+
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================================
+   RESULTS ACTIONS
+========================================================= */
+
+.results-actions {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+}
+
+
+.primary-button,
+.secondary-button {
+    min-width: 180px;
+
+    padding:
+        12px
+        20px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    font-size: 0.92rem;
+
+    font-weight: 800;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.primary-button {
+    border: none;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff5ca9,
+            #9b7cff
+        );
+
+    box-shadow:
+        0 8px 25px
+        rgba(
+            255,
+            91,
+            171,
+            0.25
+        );
+}
+
+
+.primary-button:hover {
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 30px
+        rgba(
+            255,
+            91,
+            171,
+            0.35
+        );
+}
+
+
+.secondary-button {
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.1
+        );
+
+    color: #ffffff;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.06
+        );
+}
+
+
+.secondary-button:hover {
+    transform:
+        translateY(-2px);
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.1
+        );
+}
+
+
+/* =========================================================
+   SHORT LAPTOP / SMALL DESKTOP
+========================================================= */
+
+/*
+    This is the important section for your laptop.
+
+    A lot of laptops have roughly 768px of vertical
+    resolution. The game needs to compress vertically
+    without changing the overall design.
+*/
+
+@media (
+    min-width: 801px
+) and (
+    max-height: 850px
+) {
+
+    .screen {
+        padding-top: 14px;
+        padding-bottom: 20px;
+    }
+
+
+    .game-header {
+        margin-bottom: 12px;
+    }
+
+
+    .game-icon {
+        width: 42px;
+        height: 42px;
+    }
+
+
+    .game-heading h1 {
+        font-size: 1.45rem;
+    }
+
+
+    .game-heading p {
+        font-size: 0.82rem;
+    }
+
+
+    .game-stats {
+        margin-bottom: 9px;
+    }
+
+
+    .stat-card {
+        padding: 9px;
+    }
+
+
+    .progress-section {
+        margin-bottom: 11px;
+    }
+
+
+    .instructions {
+        margin-bottom: 10px;
+    }
+
+
+    .matchup {
+        gap: 12px;
+
+        margin-bottom: 12px;
+    }
+
+
+    .choice-image-wrapper {
+        aspect-ratio: 1 / 0.78;
+    }
+
+
+    .choice-name {
+        padding-top: 9px;
+
+        font-size: 1rem;
+    }
+
+
+    .choice-label {
+        padding-bottom: 9px;
+
+        font-size: 0.7rem;
+    }
+
+
+    .vs {
+        width: 44px;
+        height: 44px;
+
+        font-size: 0.75rem;
+    }
+
+
+    .ranking-toggle-button {
+        padding: 9px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SHORT LAPTOP
+========================================================= */
+
+@media (
+    min-width: 801px
+) and (
+    max-height: 720px
+) {
+
+    .screen {
+        padding-top: 8px;
+        padding-bottom: 12px;
+    }
+
+
+    .game-header {
+        margin-bottom: 8px;
+    }
+
+
+    .game-stats {
+        margin-bottom: 7px;
+    }
+
+
+    .stat-card {
+        padding: 7px;
+    }
+
+
+    .progress-section {
+        margin-bottom: 8px;
+    }
+
+
+    .instructions {
+        margin-bottom: 7px;
+    }
+
+
+    .matchup {
+        margin-bottom: 8px;
+    }
+
+
+    .choice-image-wrapper {
+        aspect-ratio: 1 / 0.68;
+    }
+
+
+    .choice-name {
+        padding:
+            7px
+            12px
+            2px;
+
+        font-size: 0.9rem;
+    }
+
+
+    .choice-label {
+        padding:
+            0
+            12px
+            7px;
+
+        font-size: 0.65rem;
+    }
+
+
+    .current-ranking-item {
+        min-height: 46px;
+    }
+
+
+    .current-ranking-image {
+        width: 36px;
+        height: 36px;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (
+    max-width: 800px
+) {
+
+    .screen {
+        padding:
+            20px
+            15px
+            35px;
+    }
+
+
+    .home-header {
+        margin-top: 15px;
+    }
+
+
+    .matchup {
+        gap: 10px;
+    }
+
+
+    .choice-name {
+        font-size: 1.05rem;
+    }
+
+
+    .vs {
+        width: 46px;
+        height: 46px;
+
+        font-size: 0.75rem;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (
+    max-width: 600px
+) {
+
+    .screen {
+        padding:
+            14px
+            10px
+            30px;
+    }
+
+
+    /* HOME */
+
+    .home-header {
+        margin:
+            10px
+            auto
+            25px;
+    }
+
+
+    .home-icon {
+        font-size: 2.8rem;
+    }
+
+
+    .home-header h1 {
+        font-size: 2.2rem;
+
+        letter-spacing: -1.2px;
+    }
+
+
+    .home-header p {
+        font-size: 0.88rem;
+    }
+
+
+    .ranker-grid {
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(
+                    0,
+                    1fr
+                )
+            );
+
+        gap: 10px;
+    }
+
+
+    .ranker-card {
+        border-radius: 14px;
+    }
+
+
+    .ranker-card-info {
+        padding: 11px;
+    }
+
+
+    .ranker-card-icon {
+        font-size: 1.2rem;
+    }
+
+
+    .ranker-card-info h3 {
+        font-size: 0.92rem;
+    }
+
+
+    .ranker-card-info p {
+        font-size: 0.7rem;
+    }
+
+
+    /* GAME HEADER */
+
+    .game-header {
+        align-items: flex-start;
+
+        gap: 8px;
+
+        margin-bottom: 15px;
+    }
+
+
+    .back-button {
+        padding:
+            7px
+            10px;
+
+        font-size: 0.78rem;
+    }
+
+
+    .game-heading {
+        gap: 8px;
+    }
+
+
+    .game-icon {
+        width: 40px;
+        height: 40px;
+
+        border-radius: 11px;
+
+        font-size: 1.15rem;
+    }
+
+
+    .game-heading h1 {
+        font-size: 1.18rem;
+    }
+
+
+    .game-heading p {
+        font-size: 0.72rem;
+    }
+
+
+    /* STATS */
+
+    .game-stats {
+        gap: 6px;
+    }
+
+
+    .stat-card {
+        padding:
+            9px
+            5px;
+    }
+
+
+    .stat-label {
+        font-size: 0.58rem;
+    }
+
+
+    .stat-card strong {
+        font-size: 0.95rem;
+    }
+
+
+    /* PROGRESS */
+
+    .progress-section {
+        margin-bottom: 12px;
+    }
+
+
+    /* MATCHUP */
+
+    .matchup {
+        grid-template-columns:
+            minmax(
+                0,
+                1fr
+            )
+            minmax(
+                0,
+                1fr
+            );
+
+        gap: 8px;
+
+        position: relative;
+
+        margin-bottom: 14px;
+    }
+
+
+    .vs {
+        position: absolute;
+
+        left: 50%;
+        top: 50%;
+
+        transform:
+            translate(
+                -50%,
+                -50%
+            );
+
+        width: 38px;
+        height: 38px;
+
+        z-index: 2;
+
+        font-size: 0.62rem;
+
+        border:
+            3px solid
+            #15132b;
+    }
+
+
+    .choice-card {
+        border-radius: 14px;
+    }
+
+
+    .choice-image-wrapper {
+        aspect-ratio: 1 / 0.9;
+    }
+
+
+    .choice-name {
+        padding:
+            10px
+            7px
+            2px;
+
+        font-size: 0.8rem;
+    }
+
+
+    .choice-label {
+        padding:
+            0
+            7px
+            9px;
+
+        font-size: 0.58rem;
+    }
+
+
+    /* CURRENT RANKING */
+
+    .current-ranking-container {
+        padding: 11px;
+
+        border-radius: 13px;
+    }
+
+
+    .current-ranking-header h2 {
+        font-size: 1.1rem;
+    }
+
+
+    .current-ranking-header p {
+        font-size: 0.72rem;
+    }
+
+
+    .current-ranking-item {
+        grid-template-columns:
+            27px
+            39px
+            1fr
+            42px;
+
+        gap: 6px;
+
+        min-height: 50px;
+
+        padding:
+            4px
+            6px;
+    }
+
+
+    .current-ranking-image {
+        width: 36px;
+        height: 36px;
+
+        border-radius: 7px;
+    }
+
+
+    .current-ranking-name {
+        font-size: 0.75rem;
+    }
+
+
+    .current-ranking-rating {
+        font-size: 0.68rem;
+    }
+
+
+    /* RESULTS */
+
+    .results-header {
+        margin-top: 10px;
+    }
+
+
+    .results-icon {
+        font-size: 2.8rem;
+    }
+
+
+    .results-header h1 {
+        font-size: 1.9rem;
+    }
+
+
+    .result-item {
+        grid-template-columns:
+            33px
+            45px
+            1fr
+            45px;
+
+        gap: 7px;
+
+        min-height: 57px;
+
+        padding:
+            5px
+            7px;
+    }
+
+
+    .result-image {
+        width: 40px;
+        height: 40px;
+
+        border-radius: 7px;
+    }
+
+
+    .result-name {
+        font-size: 0.78rem;
+    }
+
+
+    .result-rating {
+        font-size: 0.68rem;
+    }
+
+
+    .results-actions {
+        flex-direction: column;
+    }
+
+
+    .primary-button,
+    .secondary-button {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (
+    max-width: 380px
+) {
+
+    .ranker-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+
+    .game-stats {
+        grid-template-columns:
+            repeat(
+                3,
+                1fr
+            );
+    }
+
+
+    .stat-label {
+        font-size: 0.52rem;
+    }
+
+
+    .stat-card strong {
+        font-size: 0.85rem;
+    }
+
+
+    .choice-name {
+        font-size: 0.72rem;
+    }
+
+
+    .choice-label {
+        font-size: 0.54rem;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (
+    prefers-reduced-motion: reduce
+) {
+
+    *,
+    *::before,
+    *::after {
+
+        scroll-behavior: auto !important;
+
+        transition-duration:
+            0.01ms !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+    }
+
+}
