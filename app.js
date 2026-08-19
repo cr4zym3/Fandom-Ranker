@@ -34,7 +34,188 @@ Use:
 /* =========================================================
    CONFIGURATION
 ========================================================= */
+/* =========================================================
+   FANDOM RANKER ROUTING
+   GitHub Pages Project Site
+========================================================= */
 
+const FANDOM_RANKER_BASE =
+    "/Fandom-Ranker";
+
+
+function getBasePath() {
+
+    return FANDOM_RANKER_BASE;
+
+}
+
+
+function getCurrentRoute() {
+
+    const base =
+        FANDOM_RANKER_BASE + "/";
+
+    let path =
+        window.location.pathname;
+
+
+    /*
+    Remove the Fandom-Ranker base path.
+    */
+
+    if (
+        path.startsWith(base)
+    ) {
+
+        path =
+            path.substring(
+                base.length
+            );
+
+    }
+
+
+    /*
+    Remove trailing slash.
+    */
+
+    path =
+        path.replace(
+            /\/+$/,
+            ""
+        );
+
+
+    /*
+    Home route.
+    */
+
+    if (
+        path === "" ||
+        path === "index.html"
+    ) {
+
+        return "home";
+
+    }
+
+
+    return path;
+
+}
+
+
+function goToRoute(route) {
+
+    route =
+        String(route || "")
+            .replace(/^\/+/, "")
+            .replace(/\/+$/, "");
+
+
+    if (!route) {
+
+        route = "home";
+
+    }
+
+
+    const url =
+        FANDOM_RANKER_BASE +
+        "/" +
+        route;
+
+
+    window.history.pushState(
+        {},
+        "",
+        url
+    );
+
+
+    /*
+    Tell the app to display the
+    appropriate screen after the
+    URL changes.
+    */
+
+    handleRoute();
+
+}
+
+
+function handleRoute() {
+
+    const route =
+        getCurrentRoute();
+
+
+    /*
+    ---------------------------------------------------------
+    HOME
+    ---------------------------------------------------------
+    */
+
+    if (
+        route === "home"
+    ) {
+
+        showHomeScreen();
+
+        return;
+
+    }
+
+
+    /*
+    ---------------------------------------------------------
+    FANDOM ROUTE
+    ---------------------------------------------------------
+
+    Example:
+
+        /Fandom-Ranker/star-wars-movies
+
+    produces:
+
+        star-wars-movies
+    ---------------------------------------------------------
+    */
+
+    const ranker =
+        getRankerById(route);
+
+
+    if (
+        ranker
+    ) {
+
+        startRanker(ranker);
+
+        return;
+
+    }
+
+
+    /*
+    ---------------------------------------------------------
+    UNKNOWN ROUTE
+    ---------------------------------------------------------
+
+    If somebody enters an invalid URL,
+    return them to the Fandom Ranker home.
+    ---------------------------------------------------------
+    */
+
+    goToRoute("home");
+
+}
+
+
+window.addEventListener(
+    "popstate",
+    handleRoute
+);
 const BASE_PATH = "/Fandom-Ranker";
 
 
