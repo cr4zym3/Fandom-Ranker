@@ -20,6 +20,11 @@
         content="#111827"
     >
 
+    <meta
+        name="theme-color"
+        content="#111827"
+    >
+
     <title>Fandom Ranker</title>
 
 
@@ -28,9 +33,40 @@
     ====================================================== -->
 
     <script>
+<<<<<<< HEAD
+=======
+
+        /*
+        ============================================================
+        FANDOM RANKER
+        GITHUB PAGES 404 ROUTER
+        ============================================================
+
+        GitHub Pages project:
+
+        https://cr4zym3.github.io/Fandom-Ranker/
+
+        GitHub Pages does not know about client-side routes such as:
+
+        /Fandom-Ranker/home
+        /Fandom-Ranker/star-wars-movies
+        /Fandom-Ranker/twice
+
+        When one of those URLs is refreshed, GitHub Pages loads
+        this 404.html file.
+
+        This file temporarily converts the route into a query
+        string so GitHub Pages serves index.html.
+
+        index.html then restores the clean URL.
+        ============================================================
+        */
+>>>>>>> 020d58d9ca8e757eeff3859fc920fa4adce9b8a7
+
 
         (function () {
 
+<<<<<<< HEAD
             /*
             --------------------------------------------------------
             GITHUB PAGES PROJECT BASE
@@ -39,10 +75,16 @@
 
             var BASE_PATH =
                 "/Fandom-Ranker/";
+=======
+            var location = window.location;
+
+            var basePath = "/Fandom-Ranker/";
+>>>>>>> 020d58d9ca8e757eeff3859fc920fa4adce9b8a7
 
 
             /*
             --------------------------------------------------------
+<<<<<<< HEAD
             CHECK FOR A REDIRECT FROM 404.HTML
             --------------------------------------------------------
 
@@ -59,6 +101,63 @@
                 /Fandom-Ranker/star-wars-movies
 
             before app.js runs.
+=======
+            GET THE PATH AFTER /Fandom-Ranker/
+            --------------------------------------------------------
+            */
+
+            var path =
+                location.pathname.substring(
+                    basePath.length
+                );
+
+
+            /*
+            --------------------------------------------------------
+            GET SEARCH PARAMETERS
+            --------------------------------------------------------
+            */
+
+            var search =
+                location.search;
+
+
+            /*
+            --------------------------------------------------------
+            GET HASH
+            --------------------------------------------------------
+            */
+
+            var hash =
+                location.hash;
+
+
+            /*
+            --------------------------------------------------------
+            BUILD TEMPORARY URL
+            --------------------------------------------------------
+
+            Example:
+
+            /Fandom-Ranker/star-wars-movies
+
+            becomes:
+
+            /Fandom-Ranker/?/star-wars-movies
+            --------------------------------------------------------
+            */
+
+
+            var redirectUrl =
+                basePath +
+                "?/" +
+                path;
+
+
+            /*
+            --------------------------------------------------------
+            PRESERVE QUERY PARAMETERS
+>>>>>>> 020d58d9ca8e757eeff3859fc920fa4adce9b8a7
             --------------------------------------------------------
             */
 
@@ -68,6 +167,7 @@
 
             if (
                 search &&
+<<<<<<< HEAD
                 search.indexOf("?/") === 0
             ) {
 
@@ -191,6 +291,45 @@
 
             }
 
+=======
+                search.length > 0
+            ) {
+
+                redirectUrl +=
+                    "&" +
+                    search.substring(1);
+
+            }
+
+
+            /*
+            --------------------------------------------------------
+            PRESERVE HASH
+            --------------------------------------------------------
+            */
+
+            if (
+                hash &&
+                hash.length > 0
+            ) {
+
+                redirectUrl +=
+                    hash;
+
+            }
+
+
+            /*
+            --------------------------------------------------------
+            REDIRECT TO INDEX.HTML
+            --------------------------------------------------------
+            */
+
+            window.location.replace(
+                redirectUrl
+            );
+
+>>>>>>> 020d58d9ca8e757eeff3859fc920fa4adce9b8a7
         })();
 
     </script>
@@ -227,6 +366,7 @@
 <body>
 
 
+<<<<<<< HEAD
     <!-- =====================================================
          HOME SCREEN
     ====================================================== -->
@@ -661,6 +801,8 @@
     ></script>
 
 
+=======
+>>>>>>> 020d58d9ca8e757eeff3859fc920fa4adce9b8a7
 </body>
 
 </html>
