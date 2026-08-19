@@ -13,142 +13,57 @@
     <title>Fandom Ranker</title>
 
     <script>
-        /*
-        ============================================================
-        FANDOM RANKER - GITHUB PAGES 404 ROUTER
-        ============================================================
-
-        GitHub Pages does not natively support client-side routes.
-
-        Example:
-
-            /Fandom-Ranker/home
-
-        gets sent to this 404.html file.
-
-        This script converts the requested route back into the
-        correct Fandom Ranker application URL without losing
-        /Fandom-Ranker/.
-        ============================================================
-        */
 
         (function () {
 
-            const BASE_PATH = "/Fandom-Ranker";
+            /*
+            ========================================================
+            FANDOM RANKER GITHUB PAGES SPA FALLBACK
+            ========================================================
 
-            const currentPath = window.location.pathname;
+            GitHub Pages sends unknown URLs to 404.html.
 
-            const currentSearch = window.location.search;
+            Example:
 
-            const currentHash = window.location.hash;
+                /Fandom-Ranker/star-wars-movies
+
+            We temporarily send the browser to:
+
+                /Fandom-Ranker/?/star-wars-movies
+
+            index.html then restores the original URL.
+            ========================================================
+            */
+
+            var l = window.location;
+
+            var base = "/Fandom-Ranker/";
+
+            var path =
+                l.pathname.substring(
+                    base.length
+                );
+
+            var query =
+                l.search;
+
+            var hash =
+                l.hash;
 
 
             /*
             --------------------------------------------------------
-            ONLY HANDLE ROUTES BELONGING TO FANDOM RANKER
+            DO NOT REDIRECT IF THIS IS ALREADY THE HOME PAGE
             --------------------------------------------------------
             */
 
             if (
-                currentPath === BASE_PATH ||
-                currentPath === BASE_PATH + "/" ||
-                currentPath.startsWith(BASE_PATH + "/")
+                path === "" ||
+                path === "index.html"
             ) {
 
-                /*
-                Remove the Fandom-Ranker base path so we can
-                determine which internal route was requested.
-                */
-
-                let route =
-                    currentPath.substring(
-                        BASE_PATH.length
-                    );
-
-
-                /*
-                Remove leading slash.
-                */
-
-                route =
-                    route.replace(/^\/+/, "");
-
-
-                /*
-                ----------------------------------------------------
-                DEFAULT ROUTE
-                ----------------------------------------------------
-                */
-
-                if (
-                    route === "" ||
-                    route === "index.html"
-                ) {
-
-                    route = "home";
-
-                }
-
-
-                /*
-                ----------------------------------------------------
-                NORMALIZE INDEX.HTML
-                ----------------------------------------------------
-                */
-
-                route =
-                    route.replace(
-                        /\/index\.html$/,
-                        ""
-                    );
-
-
-                /*
-                ----------------------------------------------------
-                PROTECT AGAINST DOUBLE BASE PATHS
-                ----------------------------------------------------
-
-                This prevents things such as:
-
-                    /Fandom-Ranker/Fandom-Ranker/home
-                */
-
-                if (
-                    route.startsWith(
-                        "Fandom-Ranker/"
-                    )
-                ) {
-
-                    route =
-                        route.substring(
-                            "Fandom-Ranker/".length
-                        );
-
-                }
-
-
-                /*
-                ----------------------------------------------------
-                BUILD CORRECT APPLICATION URL
-                ----------------------------------------------------
-                */
-
-                const destination =
-                    BASE_PATH +
-                    "/" +
-                    route +
-                    currentSearch +
-                    currentHash;
-
-
-                /*
-                ----------------------------------------------------
-                REDIRECT
-                ----------------------------------------------------
-                */
-
                 window.location.replace(
-                    destination
+                    base
                 );
 
                 return;
@@ -158,16 +73,26 @@
 
             /*
             --------------------------------------------------------
-            FALLBACK
+            SAVE THE ORIGINAL ROUTE
             --------------------------------------------------------
+            */
 
-            If GitHub somehow sends a completely unrelated path
-            here, send the user to the actual Fandom Ranker home.
+            var redirectUrl =
+                base +
+                "?/" +
+                path +
+                query +
+                hash;
+
+
+            /*
+            --------------------------------------------------------
+            SEND TO THE REAL INDEX.HTML
             --------------------------------------------------------
             */
 
             window.location.replace(
-                BASE_PATH + "/home"
+                redirectUrl
             );
 
         })();
@@ -181,13 +106,6 @@
 
     <p>
         Loading Fandom Ranker...
-    </p>
-
-    <p>
-        If you are not redirected automatically,
-        <a href="/Fandom-Ranker/home">
-            click here
-        </a>.
     </p>
 
 </body>
