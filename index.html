@@ -2,7 +2,11 @@
 <html lang="en">
 
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- =====================================================
+         BASIC PAGE SETTINGS
+    ====================================================== -->
+
     <meta charset="UTF-8">
 
     <meta
@@ -16,6 +20,60 @@
     >
 
     <title>Fandom Ranker</title>
+
+
+    <!-- =====================================================
+         PWA
+    ====================================================== -->
+
+    <!-- PWA manifest -->
+    <link
+        rel="manifest"
+        href="manifest.json"
+    >
+
+
+    <!-- Browser / app theme -->
+    <meta
+        name="theme-color"
+        content="#15132b"
+    >
+
+
+    <!-- Android -->
+    <meta
+        name="mobile-web-app-capable"
+        content="yes"
+    >
+
+
+    <!-- iPhone / iPad -->
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent"
+    >
+
+    <meta
+        name="apple-mobile-web-app-title"
+        content="Fandom Ranker"
+    >
+
+
+    <!-- iOS home-screen icon -->
+    <link
+        rel="apple-touch-icon"
+        href="icon-192.png"
+    >
+
+
+    <!-- =====================================================
+         STYLESHEET
+    ====================================================== -->
 
     <link
         rel="stylesheet"
@@ -301,8 +359,8 @@
 
 
         <!-- =================================================
-             CURRENT RANKING BUTTON
-        ================================================== -->
+             CURRENT RANKING
+        ====================================================== -->
 
         <section class="current-ranking-section">
 
@@ -315,10 +373,6 @@
                 View Current Ranking
             </button>
 
-
-            <!-- =============================================
-                 CURRENT RANKING
-            ============================================== -->
 
             <div
                 id="current-ranking-container"
@@ -478,6 +532,52 @@
     <script src="rankers.js"></script>
 
     <script src="app.js"></script>
+
+
+
+    <!-- =====================================================
+         SERVICE WORKER
+    ====================================================== -->
+
+    <script>
+
+        if ("serviceWorker" in navigator) {
+
+            window.addEventListener(
+                "load",
+                () => {
+
+                    navigator.serviceWorker
+                        .register(
+                            "./service-worker.js"
+                        )
+                        .then(
+                            registration => {
+
+                                console.log(
+                                    "Fandom Ranker service worker registered:",
+                                    registration.scope
+                                );
+
+                            }
+                        )
+                        .catch(
+                            error => {
+
+                                console.error(
+                                    "Service worker registration failed:",
+                                    error
+                                );
+
+                            }
+                        );
+
+                }
+            );
+
+        }
+
+    </script>
 
 
 </body>
