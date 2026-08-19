@@ -2112,4 +2112,14 @@ button,
     -webkit-tap-highlight-color: transparent;
 }
 
+button,
+.choice-card,
+.ranking-toggle-button,
+.back-button,
+.primary-button,
+.secondary-button,
+.ranker-card {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
 }

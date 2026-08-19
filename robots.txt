@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cr4zym3.github.io/Fandom-Ranker/sitemap.xml
