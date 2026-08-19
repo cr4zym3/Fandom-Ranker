@@ -8,30 +8,17 @@ app.js
 
 Universal comparison-based ranking engine.
 
-Designed to scale across fandoms with different numbers
-of items.
+Supports clean URLs:
 
-Examples:
-
-10 items -> 45 maximum comparisons
-11 items -> 55 maximum comparisons
-15 items -> 105 maximum comparisons
-22 items -> 231 maximum comparisons
-
-The system uses:
-
-- Elo ratings
-- Adaptive matchup selection
-- Scaled comparison targets
-- Ranking confidence
-- Top-ranking confidence
-- Gradual stopping probability
-- Absolute maximum protection
-
-DO NOT put fandom data here.
+/home
+/twice
+/star-wars
+/one-piece
+/mario-kart
 
 Fandom data belongs in rankers.js.
 
+DO NOT put fandom data here.
 ============================================================
 */
 
@@ -66,159 +53,455 @@ const STARTING_RATING = 1000;
 const K_FACTOR = 28;
 
 
+/* =========================================================
+   CLEAN URL CONFIGURATION
+========================================================= */
+
+const RANKER_URLS = {
+
+    "twice-title-tracks":
+        "/twice",
+
+    "star-wars-movies":
+        "/star-wars",
+
+    "one-piece-straw-hats":
+        "/one-piece",
+
+    "mario-kart-tracks":
+        "/mario-kart"
+
+};
+
+
 /*
-============================================================
-SCALING MODEL
-============================================================
+    Reverse lookup.
 
-The target is deliberately NOT one fixed number.
+    Converts:
 
-For small fandoms we compare a larger percentage of all
-possible pairs.
+        /twice
 
-For larger fandoms we reduce the percentage because the
-number of possible pairs grows very quickly.
+    into:
+
+        twice-title-tracks
 */
 
+function getRankerIdFromPath() {
+
+    let path =
+        window.location.pathname;
+
+
+    /*
+        Remove trailing slash.
+    */
+
+    path =
+        path.replace(
+            /\/+$/,
+            ""
+        );
+
+
+    /*
+        Remove GitHub Pages repository path.
+
+        Example:
+
+        /Fandom-Ranker/twice
+
+        becomes:
+
+        /twice
+    */
+
+    const repoName =
+        "/Fandom-Ranker";
+
+
+    if (
+        path.toLowerCase()
+            .startsWith(
+                repoName.toLowerCase()
+            )
+    ) {
+
+        path =
+            path.substring(
+                repoName.length
+            );
+
+    }
+
+
+    /*
+        Empty path = home.
+    */
+
+    if (
+        path === "" ||
+        path === "/"
+    ) {
+
+        return null;
+
+    }
+
+
+    /*
+        Find matching ranker.
+    */
+
+    for (
+        const rankerId in RANKER_URLS
+    ) {
+
+        let url =
+            RANKER_URLS[
+                rankerId
+            ];
+
+        url =
+            url.replace(
+                /^\/+/,
+                ""
+            );
+
+
+        if (
+            path.toLowerCase() ===
+            `/${url}`.toLowerCase()
+        ) {
+
+            return rankerId;
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================================
+   GET CLEAN URL
+========================================================= */
+
+function getRankerUrl(
+    rankerId
+) {
+
+    /*
+        Use configured clean URL.
+    */
+
+    if (
+        RANKER_URLS[
+            rankerId
+        ]
+    ) {
+
+        return RANKER_URLS[
+            rankerId
+        ];
+
+    }
+
+
+    /*
+        Fallback.
+
+        If a new ranker doesn't have
+        a custom URL yet, create one
+        from its ID.
+    */
+
+    const ranker =
+        RANKERS.find(
+            item =>
+                item.id === rankerId
+        );
+
+
+    if (!ranker) {
+
+        return "/home";
+
+    }
+
+
+    let slug =
+        ranker.id
+            .replace(
+                /-tracks$/,
+                ""
+            )
+            .replace(
+                /-movies$/,
+                ""
+            )
+            .replace(
+                /-characters$/,
+                ""
+            );
+
+
+    return `/${slug}`;
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function navigateTo(
+    url
+) {
+
+    /*
+        Change browser URL without
+        reloading the page.
+    */
+
+    if (
+        window.location.pathname !==
+        url
+    ) {
+
+        window.history.pushState(
+            {},
+            "",
+            url
+        );
+
+    }
+
+
+    /*
+        Handle the new URL.
+    */
+
+    handleRoute();
+
+}
+
+
+/* =========================================================
+   HANDLE BROWSER ROUTE
+========================================================= */
+
+function handleRoute() {
+
+    const path =
+        window.location.pathname;
+
+
+    /*
+        If GitHub Pages includes the
+        repository name in the URL,
+        the helper handles it.
+    */
+
+    const rankerId =
+        getRankerIdFromPath();
+
+
+    /*
+        Home route.
+    */
+
+    if (
+        rankerId === null
+    ) {
+
+        /*
+            Check whether this is an
+            unknown URL or simply home.
+
+            GitHub Pages repository root:
+
+            /Fandom-Ranker/
+
+            is treated as home.
+        */
+
+        const normalizedPath =
+            path
+                .replace(
+                    /\/+$/,
+                    ""
+                );
+
+
+        if (
+            normalizedPath === "" ||
+            normalizedPath.toLowerCase() ===
+                "/fandom-ranker"
+        ) {
+
+            showHome();
+
+            return;
+
+        }
+
+
+        /*
+            Unknown route.
+
+            Send back to home.
+        */
+
+        navigateTo(
+            getHomeUrl()
+        );
+
+        return;
+
+    }
+
+
+    /*
+        Start the appropriate ranker.
+    */
+
+    startRanker(
+        rankerId,
+        false
+    );
+
+}
+
+
+/* =========================================================
+   HOME URL
+========================================================= */
+
+function getHomeUrl() {
+
+    /*
+        For GitHub Pages:
+
+        https://cr4zym3.github.io/Fandom-Ranker/
+
+        We use /Fandom-Ranker/ as the actual
+        root when necessary.
+    */
+
+    const path =
+        window.location.pathname;
+
+
+    if (
+        path
+            .toLowerCase()
+            .startsWith(
+                "/fandom-ranker"
+            )
+    ) {
+
+        return "/Fandom-Ranker/";
+
+    }
+
+
+    return "/home";
+
+}
+
+
+/* =========================================================
+   SCALING MODEL
+========================================================= */
 
 function getTargetRatio() {
 
     const n = items.length;
 
 
-    /*
-        Tiny fandoms.
-
-        These are cheap enough to examine thoroughly.
-    */
-
-    if (n <= 8) {
+    if (
+        n <= 8
+    ) {
 
         return 0.75;
 
     }
 
 
-    /*
-        9-10 items.
-
-        Example:
-
-        10 items
-        45 possible
-        target = ~34
-    */
-
-    if (n <= 10) {
+    if (
+        n <= 10
+    ) {
 
         return 0.75;
 
     }
 
 
-    /*
-        11-12 items.
-
-        Example:
-
-        11 items
-        55 possible
-        target = ~40
-    */
-
-    if (n <= 12) {
+    if (
+        n <= 12
+    ) {
 
         return 0.72;
 
     }
 
 
-    /*
-        13-15 items.
-
-        Example:
-
-        15 items
-        105 possible
-        target = ~68
-    */
-
-    if (n <= 15) {
+    if (
+        n <= 15
+    ) {
 
         return 0.65;
 
     }
 
 
-    /*
-        16-18 items.
-    */
-
-    if (n <= 18) {
+    if (
+        n <= 18
+    ) {
 
         return 0.62;
 
     }
 
 
-    /*
-        19-22 items.
-
-        TWICE has 22 items.
-
-        231 possible comparisons.
-
-        Target:
-
-        231 * .65 = 150.15
-    */
-
-    if (n <= 22) {
+    if (
+        n <= 22
+    ) {
 
         return 0.65;
 
     }
 
 
-    /*
-        23-30 items.
-
-        Begin reducing the percentage because
-        pair count grows rapidly.
-    */
-
-    if (n <= 30) {
+    if (
+        n <= 30
+    ) {
 
         return 0.55;
 
     }
 
 
-    /*
-        31-40.
-    */
-
-    if (n <= 40) {
+    if (
+        n <= 40
+    ) {
 
         return 0.45;
 
     }
 
 
-    /*
-        41-60.
-    */
-
-    if (n <= 60) {
+    if (
+        n <= 60
+    ) {
 
         return 0.35;
 
     }
 
-
-    /*
-        Large databases.
-    */
 
     return 0.25;
 
@@ -231,7 +514,9 @@ function getTargetRatio() {
 
 function getMaximumComparisons() {
 
-    if (items.length < 2) {
+    if (
+        items.length < 2
+    ) {
 
         return 0;
 
@@ -288,7 +573,7 @@ function getPairKey(
 
 
 /* =========================================================
-   HOME
+   SHOW HOME
 ========================================================= */
 
 function showHome() {
@@ -386,13 +671,50 @@ function renderRankers() {
                 "ranker-card";
 
 
+            card.setAttribute(
+                "role",
+                "button"
+            );
+
+
+            card.setAttribute(
+                "tabindex",
+                "0"
+            );
+
+
             card.addEventListener(
                 "click",
                 () => {
 
                     startRanker(
-                        ranker.id
+                        ranker.id,
+                        true
                     );
+
+                }
+            );
+
+
+            card.addEventListener(
+                "keydown",
+                event => {
+
+                    if (
+                        event.key ===
+                        "Enter" ||
+                        event.key ===
+                        " "
+                    ) {
+
+                        event.preventDefault();
+
+                        startRanker(
+                            ranker.id,
+                            true
+                        );
+
+                    }
 
                 }
             );
@@ -416,6 +738,10 @@ function renderRankers() {
 
             image.alt =
                 ranker.title;
+
+
+            image.loading =
+                "lazy";
 
 
             image.onerror =
@@ -452,7 +778,8 @@ function renderRankers() {
 
 
             icon.textContent =
-                ranker.icon || "⭐";
+                ranker.icon ||
+                "⭐";
 
 
             /* TITLE */
@@ -519,7 +846,8 @@ function renderRankers() {
 ========================================================= */
 
 function startRanker(
-    rankerId
+    rankerId,
+    updateUrl = true
 ) {
 
     currentRanker =
@@ -537,6 +865,37 @@ function startRanker(
         );
 
         return;
+
+    }
+
+
+    /*
+        Update clean URL when the user
+        clicked a fandom.
+    */
+
+    if (
+        updateUrl
+    ) {
+
+        const url =
+            getRankerUrl(
+                rankerId
+            );
+
+
+        if (
+            window.location.pathname !==
+            url
+        ) {
+
+            window.history.pushState(
+                {},
+                "",
+                url
+            );
+
+        }
 
     }
 
@@ -619,7 +978,7 @@ function startRanker(
 
 
     /*
-        Reset current ranking panel.
+        Reset current ranking.
     */
 
     const rankingContainer =
@@ -662,7 +1021,8 @@ function startRanker(
     if (icon) {
 
         icon.textContent =
-            currentRanker.icon || "⭐";
+            currentRanker.icon ||
+            "⭐";
 
     }
 
@@ -717,7 +1077,9 @@ function startRanker(
 
 function chooseNextMatch() {
 
-    if (gameFinished) {
+    if (
+        gameFinished
+    ) {
 
         return;
 
@@ -756,7 +1118,9 @@ function chooseNextMatch() {
 
 function findBestMatchup() {
 
-    if (items.length < 2) {
+    if (
+        items.length < 2
+    ) {
 
         return null;
 
@@ -778,16 +1142,8 @@ function findBestMatchup() {
 
 
     /*
-    ========================================================
-    EXPLORATION PHASE
-    ========================================================
-
-    Early comparisons are spread around the database.
-
-    This prevents the first few choices from dominating
-    the Elo ratings.
+        Exploration phase.
     */
-
 
     const explorationTarget =
         Math.min(
@@ -812,15 +1168,7 @@ function findBestMatchup() {
 
 
     /*
-    ========================================================
-    ADAPTIVE PHASE
-    ========================================================
-
-    Find unused pairs whose ratings are close.
-
-    Close ratings = uncertain ordering.
-
-    Those are the most useful comparisons.
+        Adaptive phase.
     */
 
     const candidates = [];
@@ -904,13 +1252,6 @@ function findBestMatchup() {
             b.difference
     );
 
-
-    /*
-        Randomly select from a small group of the
-        most uncertain pairs.
-
-        This prevents repetitive deterministic behavior.
-    */
 
     const poolSize =
         Math.min(
@@ -1126,10 +1467,6 @@ function chooseWinner(
             : leftItem;
 
 
-    /*
-        Record pair.
-    */
-
     const key =
         getPairKey(
             winner,
@@ -1147,10 +1484,6 @@ function chooseWinner(
         true
     );
 
-
-    /*
-        Update Elo.
-    */
 
     updateElo(
         winner,
@@ -1179,7 +1512,9 @@ function chooseWinner(
 
                 finishGame();
 
-            } else {
+            }
+
+            else {
 
                 chooseNextMatch();
 
@@ -1283,10 +1618,6 @@ function getRankingStability() {
 
     let total = 0;
 
-
-    /*
-        Slightly stricter for small fandoms.
-    */
 
     const threshold =
         items.length <= 12
@@ -1501,17 +1832,6 @@ function getRankingConfidence() {
         getTopFiveStability();
 
 
-    /*
-        Overall ranking:
-            30%
-
-        Top 10:
-            40%
-
-        Top 5:
-            30%
-    */
-
     return (
         overall * 0.30
     ) +
@@ -1537,8 +1857,6 @@ function shouldFinish() {
 
     /*
         Absolute maximum.
-
-        This is the only guaranteed ending.
     */
 
     if (
@@ -1555,7 +1873,7 @@ function shouldFinish() {
 
 
     /*
-        Never finish before the scaled target.
+        Never finish before target.
     */
 
     if (
@@ -1574,17 +1892,6 @@ function shouldFinish() {
     const top =
         getTopRankingStability();
 
-
-    /*
-    ========================================================
-    CONFIDENCE THRESHOLD
-    ========================================================
-
-    This is deliberately easier than the previous version.
-
-    We use ONE combined confidence score instead of requiring
-    several independent conditions to all pass.
-    */
 
     let confidenceThreshold;
 
@@ -1633,19 +1940,6 @@ function shouldFinish() {
     }
 
 
-    /*
-    ========================================================
-    NORMAL STOPPING
-    ========================================================
-
-    Once the target has been reached, stopping becomes
-    progressively more likely.
-
-    This produces variation between games instead of
-    making every game finish at exactly the same number.
-    */
-
-
     const progress =
         (
             comparisons -
@@ -1658,10 +1952,6 @@ function shouldFinish() {
         );
 
 
-    /*
-        Clamp progress.
-    */
-
     const normalizedProgress =
         Math.max(
             0,
@@ -1672,18 +1962,6 @@ function shouldFinish() {
         );
 
 
-    /*
-        Base probability.
-
-        At target:
-
-            ~12%
-
-        Near maximum:
-
-            ~88%
-    */
-
     let stopChance =
         0.12 +
         (
@@ -1691,14 +1969,6 @@ function shouldFinish() {
             0.76
         );
 
-
-    /*
-        Confidence multiplier.
-
-        Stronger ranking = easier to stop.
-
-        Weak ranking = harder to stop.
-    */
 
     if (
         confidence <
@@ -1730,27 +2000,15 @@ function shouldFinish() {
     }
 
 
-    /*
-        Top ranking still matters.
-
-        If the top of the ranking is unstable,
-        reduce the stopping probability.
-    */
-
     if (
         top < 0.55
     ) {
 
-        stopChance *= 0.65;
+        stopChance *=
+            0.65;
 
     }
 
-
-    /*
-    ========================================================
-    EXTRA PROTECTION AGAINST EARLY ENDINGS
-    ========================================================
-    */
 
     const earlyLimit =
         Math.ceil(
@@ -1763,21 +2021,11 @@ function shouldFinish() {
         earlyLimit
     ) {
 
-        stopChance *= 0.35;
+        stopChance *=
+            0.35;
 
     }
 
-
-    /*
-    ========================================================
-    LATE GAME
-    ========================================================
-
-    Once we are very close to maximum, increase pressure.
-
-    This prevents difficult rankings from getting stuck
-    indefinitely.
-    */
 
     const remaining =
         maximum -
@@ -1804,10 +2052,6 @@ function shouldFinish() {
     }
 
 
-    /*
-        Clamp.
-    */
-
     stopChance =
         Math.max(
             0,
@@ -1832,7 +2076,9 @@ function shouldFinish() {
 
 function finishGame() {
 
-    if (gameFinished) {
+    if (
+        gameFinished
+    ) {
 
         return;
 
@@ -2024,6 +2270,10 @@ function updateCurrentRanking() {
                 item.name;
 
 
+            image.loading =
+                "lazy";
+
+
             image.onerror =
                 function () {
 
@@ -2165,7 +2415,9 @@ function toggleCurrentRanking() {
 
 function showResults() {
 
-    if (!currentRanker) {
+    if (
+        !currentRanker
+    ) {
 
         return;
 
@@ -2237,7 +2489,8 @@ function showResults() {
     if (icon) {
 
         icon.textContent =
-            currentRanker.icon || "⭐";
+            currentRanker.icon ||
+            "⭐";
 
     }
 
@@ -2383,6 +2636,10 @@ function showResults() {
                 item.name;
 
 
+            image.loading =
+                "lazy";
+
+
             image.onerror =
                 function () {
 
@@ -2468,15 +2725,30 @@ function showResults() {
 
 function restartGame() {
 
-    if (!currentRanker) {
+    if (
+        !currentRanker
+    ) {
 
         return;
 
     }
 
 
+    /*
+        Stay on the same clean URL.
+
+        Example:
+
+        /twice
+
+        stays:
+
+        /twice
+    */
+
     startRanker(
-        currentRanker.id
+        currentRanker.id,
+        false
     );
 
 }
@@ -2507,9 +2779,71 @@ function returnHome() {
         new Map();
 
 
+    /*
+        Change URL to home.
+    */
+
+    const homeUrl =
+        getHomeUrl();
+
+
+    if (
+        window.location.pathname !==
+        homeUrl
+    ) {
+
+        window.history.pushState(
+            {},
+            "",
+            homeUrl
+        );
+
+    }
+
+
     showHome();
 
 }
+
+
+/* =========================================================
+   BROWSER BACK / FORWARD
+========================================================= */
+
+window.addEventListener(
+    "popstate",
+    () => {
+
+        /*
+            Stop the current game state.
+
+            The URL determines what should
+            be displayed.
+        */
+
+        currentRanker = null;
+
+        items = [];
+
+        comparisons = 0;
+
+        leftItem = null;
+
+        rightItem = null;
+
+        gameFinished = false;
+
+        comparedPairs =
+            new Set();
+
+        pairHistory =
+            new Map();
+
+
+        handleRoute();
+
+    }
+);
 
 
 /* =========================================================
@@ -2520,7 +2854,37 @@ document.addEventListener(
     "DOMContentLoaded",
     () => {
 
+        /*
+            Make sure rankers.js loaded.
+        */
+
+        if (
+            typeof RANKERS ===
+            "undefined"
+        ) {
+
+            console.error(
+                "RANKERS is not defined. Make sure rankers.js loads before app.js."
+            );
+
+            return;
+
+        }
+
+
+        /*
+            Render home cards first.
+        */
+
         renderRankers();
+
+
+        /*
+            Then determine which URL
+            the visitor is on.
+        */
+
+        handleRoute();
 
     }
 );
