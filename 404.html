@@ -10,84 +10,141 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <meta
+        name="theme-color"
+        content="#111827"
+    >
+
     <title>Fandom Ranker</title>
 
     <script>
 
+        /*
+        ============================================================
+        FANDOM RANKER
+        GITHUB PAGES 404 ROUTER
+        ============================================================
+
+        GitHub Pages project:
+
+        https://cr4zym3.github.io/Fandom-Ranker/
+
+        GitHub Pages does not know about client-side routes such as:
+
+        /Fandom-Ranker/home
+        /Fandom-Ranker/star-wars-movies
+        /Fandom-Ranker/twice
+
+        When one of those URLs is refreshed, GitHub Pages loads
+        this 404.html file.
+
+        This file temporarily converts the route into a query
+        string so GitHub Pages serves index.html.
+
+        index.html then restores the clean URL.
+        ============================================================
+        */
+
+
         (function () {
 
-            /*
-            ========================================================
-            FANDOM RANKER GITHUB PAGES SPA FALLBACK
-            ========================================================
+            var location = window.location;
 
-            GitHub Pages sends unknown URLs to 404.html.
-
-            Example:
-
-                /Fandom-Ranker/star-wars-movies
-
-            We temporarily send the browser to:
-
-                /Fandom-Ranker/?/star-wars-movies
-
-            index.html then restores the original URL.
-            ========================================================
-            */
-
-            var l = window.location;
-
-            var base = "/Fandom-Ranker/";
-
-            var path =
-                l.pathname.substring(
-                    base.length
-                );
-
-            var query =
-                l.search;
-
-            var hash =
-                l.hash;
+            var basePath = "/Fandom-Ranker/";
 
 
             /*
             --------------------------------------------------------
-            DO NOT REDIRECT IF THIS IS ALREADY THE HOME PAGE
+            GET THE PATH AFTER /Fandom-Ranker/
+            --------------------------------------------------------
+            */
+
+            var path =
+                location.pathname.substring(
+                    basePath.length
+                );
+
+
+            /*
+            --------------------------------------------------------
+            GET SEARCH PARAMETERS
+            --------------------------------------------------------
+            */
+
+            var search =
+                location.search;
+
+
+            /*
+            --------------------------------------------------------
+            GET HASH
+            --------------------------------------------------------
+            */
+
+            var hash =
+                location.hash;
+
+
+            /*
+            --------------------------------------------------------
+            BUILD TEMPORARY URL
+            --------------------------------------------------------
+
+            Example:
+
+            /Fandom-Ranker/star-wars-movies
+
+            becomes:
+
+            /Fandom-Ranker/?/star-wars-movies
+            --------------------------------------------------------
+            */
+
+
+            var redirectUrl =
+                basePath +
+                "?/" +
+                path;
+
+
+            /*
+            --------------------------------------------------------
+            PRESERVE QUERY PARAMETERS
             --------------------------------------------------------
             */
 
             if (
-                path === "" ||
-                path === "index.html"
+                search &&
+                search.length > 0
             ) {
 
-                window.location.replace(
-                    base
-                );
-
-                return;
+                redirectUrl +=
+                    "&" +
+                    search.substring(1);
 
             }
 
 
             /*
             --------------------------------------------------------
-            SAVE THE ORIGINAL ROUTE
+            PRESERVE HASH
             --------------------------------------------------------
             */
 
-            var redirectUrl =
-                base +
-                "?/" +
-                path +
-                query +
-                hash;
+            if (
+                hash &&
+                hash.length > 0
+            ) {
+
+                redirectUrl +=
+                    hash;
+
+            }
 
 
             /*
             --------------------------------------------------------
-            SEND TO THE REAL INDEX.HTML
+            REDIRECT TO INDEX.HTML
             --------------------------------------------------------
             */
 
