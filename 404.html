@@ -7,377 +7,188 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    >
-
-    <meta
-        name="theme-color"
-        content="#111827"
+        content="width=device-width, initial-scale=1.0"
     >
 
     <title>Fandom Ranker</title>
 
-    <link
-        rel="stylesheet"
-        href="/Fandom-Ranker/style.css?v=5"
-    >
+    <script>
+        /*
+        ============================================================
+        FANDOM RANKER - GITHUB PAGES 404 ROUTER
+        ============================================================
 
-    <link
-        rel="manifest"
-        href="/Fandom-Ranker/manifest.json"
-    >
+        GitHub Pages does not natively support client-side routes.
+
+        Example:
+
+            /Fandom-Ranker/home
+
+        gets sent to this 404.html file.
+
+        This script converts the requested route back into the
+        correct Fandom Ranker application URL without losing
+        /Fandom-Ranker/.
+        ============================================================
+        */
+
+        (function () {
+
+            const BASE_PATH = "/Fandom-Ranker";
+
+            const currentPath = window.location.pathname;
+
+            const currentSearch = window.location.search;
+
+            const currentHash = window.location.hash;
+
+
+            /*
+            --------------------------------------------------------
+            ONLY HANDLE ROUTES BELONGING TO FANDOM RANKER
+            --------------------------------------------------------
+            */
+
+            if (
+                currentPath === BASE_PATH ||
+                currentPath === BASE_PATH + "/" ||
+                currentPath.startsWith(BASE_PATH + "/")
+            ) {
+
+                /*
+                Remove the Fandom-Ranker base path so we can
+                determine which internal route was requested.
+                */
+
+                let route =
+                    currentPath.substring(
+                        BASE_PATH.length
+                    );
+
+
+                /*
+                Remove leading slash.
+                */
+
+                route =
+                    route.replace(/^\/+/, "");
+
+
+                /*
+                ----------------------------------------------------
+                DEFAULT ROUTE
+                ----------------------------------------------------
+                */
+
+                if (
+                    route === "" ||
+                    route === "index.html"
+                ) {
+
+                    route = "home";
+
+                }
+
+
+                /*
+                ----------------------------------------------------
+                NORMALIZE INDEX.HTML
+                ----------------------------------------------------
+                */
+
+                route =
+                    route.replace(
+                        /\/index\.html$/,
+                        ""
+                    );
+
+
+                /*
+                ----------------------------------------------------
+                PROTECT AGAINST DOUBLE BASE PATHS
+                ----------------------------------------------------
+
+                This prevents things such as:
+
+                    /Fandom-Ranker/Fandom-Ranker/home
+                */
+
+                if (
+                    route.startsWith(
+                        "Fandom-Ranker/"
+                    )
+                ) {
+
+                    route =
+                        route.substring(
+                            "Fandom-Ranker/".length
+                        );
+
+                }
+
+
+                /*
+                ----------------------------------------------------
+                BUILD CORRECT APPLICATION URL
+                ----------------------------------------------------
+                */
+
+                const destination =
+                    BASE_PATH +
+                    "/" +
+                    route +
+                    currentSearch +
+                    currentHash;
+
+
+                /*
+                ----------------------------------------------------
+                REDIRECT
+                ----------------------------------------------------
+                */
+
+                window.location.replace(
+                    destination
+                );
+
+                return;
+
+            }
+
+
+            /*
+            --------------------------------------------------------
+            FALLBACK
+            --------------------------------------------------------
+
+            If GitHub somehow sends a completely unrelated path
+            here, send the user to the actual Fandom Ranker home.
+            --------------------------------------------------------
+            */
+
+            window.location.replace(
+                BASE_PATH + "/home"
+            );
+
+        })();
+
+    </script>
 
 </head>
 
 
 <body>
 
-
-    <main
-        id="home-screen"
-        class="screen"
-    >
-
-        <section class="home-header">
-
-            <div class="home-icon">
-                ⭐
-            </div>
-
-            <h1>
-                Fandom Ranker
-            </h1>
-
-            <p>
-                Build your personal ranking by choosing
-                between two favorites at a time.
-            </p>
-
-        </section>
-
-
-        <section class="ranker-section">
-
-            <h2>
-                Choose a Fandom
-            </h2>
-
-            <div
-                id="ranker-grid"
-                class="ranker-grid"
-            ></div>
-
-        </section>
-
-    </main>
-
-
-    <main
-        id="game-screen"
-        class="screen hidden"
-    >
-
-        <header class="game-header">
-
-            <button
-                class="back-button"
-                onclick="returnHome()"
-                type="button"
-            >
-                ← Back
-            </button>
-
-
-            <div class="game-heading">
-
-                <div
-                    id="game-icon"
-                    class="game-icon"
-                >
-                    ⭐
-                </div>
-
-                <div>
-
-                    <h1 id="game-title">
-                        Fandom Ranker
-                    </h1>
-
-                    <p id="game-subtitle">
-                        Choose your favorite
-                    </p>
-
-                </div>
-
-            </div>
-
-        </header>
-
-
-        <section class="game-stats">
-
-            <div class="stat-card">
-
-                <span class="stat-label">
-                    Comparisons
-                </span>
-
-                <strong id="comparison-count">
-                    0
-                </strong>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <span class="stat-label">
-                    Maximum
-                </span>
-
-                <strong id="maximum-comparisons">
-                    0
-                </strong>
-
-            </div>
-
-
-            <div class="stat-card">
-
-                <span class="stat-label">
-                    Status
-                </span>
-
-                <strong id="ranking-status">
-                    In progress
-                </strong>
-
-            </div>
-
-        </section>
-
-
-        <section class="progress-section">
-
-            <div class="progress-bar">
-
-                <div
-                    id="progress-fill"
-                    class="progress-fill"
-                ></div>
-
-            </div>
-
-        </section>
-
-
-        <section class="instructions">
-
-            <p>
-                Which one do you prefer?
-            </p>
-
-        </section>
-
-
-        <section class="matchup">
-
-            <button
-                class="choice-card"
-                type="button"
-                onclick="chooseWinner('left')"
-            >
-
-                <div class="choice-image-wrapper">
-
-                    <img
-                        id="left-image"
-                        class="choice-image"
-                        src=""
-                        alt=""
-                    >
-
-                </div>
-
-                <div
-                    id="left-name"
-                    class="choice-name"
-                >
-                    Song
-                </div>
-
-                <div class="choice-label">
-                    Choose
-                </div>
-
-            </button>
-
-
-            <div class="vs">
-                VS
-            </div>
-
-
-            <button
-                class="choice-card"
-                type="button"
-                onclick="chooseWinner('right')"
-            >
-
-                <div class="choice-image-wrapper">
-
-                    <img
-                        id="right-image"
-                        class="choice-image"
-                        src=""
-                        alt=""
-                    >
-
-                </div>
-
-                <div
-                    id="right-name"
-                    class="choice-name"
-                >
-                    Song
-                </div>
-
-                <div class="choice-label">
-                    Choose
-                </div>
-
-            </button>
-
-        </section>
-
-
-        <section class="current-ranking-section">
-
-            <button
-                id="current-ranking-button"
-                class="ranking-toggle-button"
-                type="button"
-                onclick="toggleCurrentRanking()"
-            >
-                View Current Ranking
-            </button>
-
-
-            <div
-                id="current-ranking-container"
-                class="current-ranking-container hidden"
-            >
-
-                <div class="current-ranking-header">
-
-                    <h2>
-                        Current Ranking
-                    </h2>
-
-                    <p>
-                        This ranking updates as you make
-                        your choices.
-                    </p>
-
-                </div>
-
-
-                <div
-                    id="current-ranking"
-                    class="current-ranking"
-                ></div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <main
-        id="results-screen"
-        class="screen hidden"
-    >
-
-        <section class="results-header">
-
-            <div
-                id="results-icon"
-                class="results-icon"
-            >
-                ⭐
-            </div>
-
-            <h1 id="results-title">
-                Your Ranking
-            </h1>
-
-            <p id="results-subtitle">
-                You made 0 choices.
-            </p>
-
-        </section>
-
-
-        <section class="final-stats">
-
-            <div class="final-stat">
-
-                <span>
-                    Comparisons
-                </span>
-
-                <strong id="final-comparisons">
-                    0
-                </strong>
-
-            </div>
-
-        </section>
-
-
-        <section class="results-section">
-
-            <h2>
-                Your Final Ranking
-            </h2>
-
-            <div
-                id="results-list"
-                class="results-list"
-            ></div>
-
-        </section>
-
-
-        <section class="results-actions">
-
-            <button
-                class="primary-button"
-                type="button"
-                onclick="restartGame()"
-            >
-                Rank Again
-            </button>
-
-
-            <button
-                class="secondary-button"
-                type="button"
-                onclick="returnHome()"
-            >
-                Choose Another Fandom
-            </button>
-
-        </section>
-
-    </main>
-
-
-    <script src="/Fandom-Ranker/rankers.js?v=5"></script>
-
-    <script src="/Fandom-Ranker/app.js?v=5"></script>
-
+    <p>
+        Loading Fandom Ranker...
+    </p>
+
+    <p>
+        If you are not redirected automatically,
+        <a href="/Fandom-Ranker/home">
+            click here
+        </a>.
+    </p>
 
 </body>
 
