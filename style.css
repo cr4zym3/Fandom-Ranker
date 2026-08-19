@@ -2097,5 +2097,19 @@ img {
             1 !important;
 
     }
+    /* =========================================================
+   MOBILE TOUCH / ZOOM PREVENTION
+========================================================= */
+
+button,
+.choice-card,
+.ranking-toggle-button,
+.back-button,
+.primary-button,
+.secondary-button,
+.ranker-card {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
 
 }
