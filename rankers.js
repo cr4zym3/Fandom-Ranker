@@ -485,6 +485,149 @@ const RANKERS = [
 
         ]
 
-    }
+    },
+
+    {
+    id: "fast-food-restaurants",
+
+    slug: "fast-food",
+
+    title: "Fast Food Restaurants",
+
+    description:
+        "Rank the most popular fast food restaurants in America",
+
+    subtitle:
+        "Rank your favorite fast food restaurants",
+
+    icon: "🍔",
+
+    image:
+        "images/fast_food.jpg",
+
+    items: [
+
+        {
+            name: "McDonald's",
+            image:
+                "images/fast_food/mcdonalds.jpg"
+        },
+
+        {
+            name: "Starbucks",
+            image:
+                "images/fast_food/starbucks.jpg"
+        },
+
+        {
+            name: "Chick-fil-A",
+            image:
+                "images/fast_food/chick-fil-a.jpg"
+        },
+
+        {
+            name: "Taco Bell",
+            image:
+                "images/fast_food/taco-bell.jpg"
+        },
+
+        {
+            name: "Dunkin'",
+            image:
+                "images/fast_food/dunkin.jpg"
+        },
+
+        {
+            name: "Wendy's",
+            image:
+                "images/fast_food/wendys.jpg"
+        },
+
+        {
+            name: "Chipotle",
+            image:
+                "images/fast_food/chipotle.jpg"
+        },
+
+        {
+            name: "Burger King",
+            image:
+                "images/fast_food/burger-king.jpg"
+        },
+
+        {
+            name: "Domino's",
+            image:
+                "images/fast_food/dominos.jpg"
+        },
+
+        {
+            name: "Subway",
+            image:
+                "images/fast_food/subway.jpg"
+        },
+
+        {
+            name: "Panda Express",
+            image:
+                "images/fast_food/panda-express.jpg"
+        },
+
+        {
+            name: "Panera",
+            image:
+                "images/fast_food/panera.jpg"
+        },
+
+        {
+            name: "Popeyes",
+            image:
+                "images/fast_food/popeyes.jpg"
+        },
+
+        {
+            name: "Raising Cane's",
+            image:
+                "images/fast_food/raising-canes.jpg"
+        },
+
+        {
+            name: "Wingstop",
+            image:
+                "images/fast_food/wingstop.jpg"
+        },
+
+        {
+            name: "Sonic Drive-In",
+            image:
+                "images/fast_food/sonic.jpg"
+        },
+
+        {
+            name: "Pizza Hut",
+            image:
+                "images/fast_food/pizza-hut.jpg"
+        },
+
+        {
+            name: "Dairy Queen",
+            image:
+                "images/fast_food/dairy-queen.jpg"
+        },
+
+        {
+            name: "KFC",
+            image:
+                "images/fast_food/kfc.jpg"
+        },
+
+        {
+            name: "Whataburger",
+            image:
+                "images/fast_food/whataburger.jpg"
+        }
+
+    ]
+}
 
 ];
