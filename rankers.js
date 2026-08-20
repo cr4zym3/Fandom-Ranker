@@ -628,6 +628,161 @@ const RANKERS = [
         }
 
     ]
+},
+
+{
+    id: "geometry-dash-main-levels",
+
+    slug: "geometry-dash-main-levels",
+
+    title: "Geometry Dash Main Levels",
+
+    description:
+        "Rank the official Geometry Dash main levels",
+
+    subtitle:
+        "Rank your favorite RobTop levels",
+
+    icon: "🔺",
+
+    image:
+        "images/geometry_dash.jpg",
+
+    items: [
+
+        {
+            name: "Stereo Madness",
+            image:
+                "images/geometry_dash/stereo-madness.jpg"
+        },
+
+        {
+            name: "Back on Track",
+            image:
+                "images/geometry_dash/back-on-track.jpg"
+        },
+
+        {
+            name: "Polargeist",
+            image:
+                "images/geometry_dash/polargeist.jpg"
+        },
+
+        {
+            name: "Dry Out",
+            image:
+                "images/geometry_dash/dry-out.jpg"
+        },
+
+        {
+            name: "Base After Base",
+            image:
+                "images/geometry_dash/base-after-base.jpg"
+        },
+
+        {
+            name: "Can't Let Go",
+            image:
+                "images/geometry_dash/cant-let-go.jpg"
+        },
+
+        {
+            name: "Jumper",
+            image:
+                "images/geometry_dash/jumper.jpg"
+        },
+
+        {
+            name: "Time Machine",
+            image:
+                "images/geometry_dash/time-machine.jpg"
+        },
+
+        {
+            name: "Cycles",
+            image:
+                "images/geometry_dash/cycles.jpg"
+        },
+
+        {
+            name: "xStep",
+            image:
+                "images/geometry_dash/xstep.jpg"
+        },
+
+        {
+            name: "Clutterfunk",
+            image:
+                "images/geometry_dash/clutterfunk.jpg"
+        },
+
+        {
+            name: "Theory of Everything",
+            image:
+                "images/geometry_dash/theory-of-everything.jpg"
+        },
+
+        {
+            name: "Electroman Adventures",
+            image:
+                "images/geometry_dash/electroman-adventures.jpg"
+        },
+
+        {
+            name: "Clubstep",
+            image:
+                "images/geometry_dash/clubstep.jpg"
+        },
+
+        {
+            name: "Electrodynamix",
+            image:
+                "images/geometry_dash/electrodynamix.jpg"
+        },
+
+        {
+            name: "Hexagon Force",
+            image:
+                "images/geometry_dash/hexagon-force.jpg"
+        },
+
+        {
+            name: "Blast Processing",
+            image:
+                "images/geometry_dash/blast-processing.jpg"
+        },
+
+        {
+            name: "Theory of Everything 2",
+            image:
+                "images/geometry_dash/theory-of-everything-2.jpg"
+        },
+
+        {
+            name: "Geometrical Dominator",
+            image:
+                "images/geometry_dash/geometrical-dominator.jpg"
+        },
+
+        {
+            name: "Deadlocked",
+            image:
+                "images/geometry_dash/deadlocked.jpg"
+        },
+
+        {
+            name: "Fingerdash",
+            image:
+                "images/geometry_dash/fingerdash.jpg"
+        },
+
+        {
+            name: "Dash",
+            image:
+                "images/geometry_dash/dash.jpg"
+        }
+
+    ]
 }
 
 ];
